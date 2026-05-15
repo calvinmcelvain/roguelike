@@ -22,7 +22,7 @@ void TerminalGraphics::draw(int x, int y, char c) {
 }
 
 void TerminalGraphics::drawString(int x, int y, const std::string& text) {
-    for (size_t i = 0; i < text.length(); i++) {
+    for (int i = 0; i < text.length(); i++) {
         draw(x + i, y, text[i]);
     }
 }

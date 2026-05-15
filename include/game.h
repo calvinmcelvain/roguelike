@@ -3,6 +3,7 @@
 
 #include "player.h"
 #include "level.h"
+#include "enemy.h"
 #include "terminal_graphics.h"
 #include <vector>
 #include <memory>
