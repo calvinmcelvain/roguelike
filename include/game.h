@@ -32,10 +32,6 @@ class Game {
   void update();
   void render();
   void spawnEnemies();
-
-  // Utility
-  void setupTerminal();
-  void restoreTerminal();
 };
 
 #endif
