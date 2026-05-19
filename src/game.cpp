@@ -2,19 +2,21 @@
 
 #include <ncurses.h>
 
+#include <chrono>
 #include <cstdlib>
 #include <iostream>
-#include <chrono>
 #include <thread>
 
 #include "enemy.h"
 
 /**
- * @brief Construct a new Game:: Game object
- * 
+ * @brief Construct a new Game:: Game object.
+ *
  * @param width width of the game screen
  * @param height height of the game screen
- * Initializes the player in the center of the screen, generates the level, and spawns enemies
+ * Initializes the player in the center of the screen, generates the level, and
+ * spawns enemies.
+ *
  */
 Game::Game(int width, int height)
     : screenWidth(width),
@@ -27,14 +29,17 @@ Game::Game(int width, int height)
 
 /**
  * @brief Runs the main game loop.
- * Handles input, updates game state, and renders the screen at a fixed frame rate.
- * 
+ * Handles input, updates game state, and renders the screen at a fixed frame
+ * rate.
+ *
  */
 void Game::run() {
   printw("Roguelike Game Started! Use arrow keys to move. Press Q to quit.\n");
   printw("Press any key to begin...\n");
+
   box(stdscr, 0, 0);
   refresh();
+
   // Set frame rate control variables
   const int FPS = 60;
   const int FRAME_TIME = 1000 / FPS;
@@ -45,15 +50,18 @@ void Game::run() {
     handleInput();
     update();
     render();
+
     // -------- Frame end --------
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed =
-      std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
+            .count();
 
-    //TODO: Sleep to maintain consistent frame rate (there may be a better solution)
+    // TODO: Sleep to maintain consistent frame rate (there may be a better
+    // solution)
     if (elapsed < FRAME_TIME) {
       std::this_thread::sleep_for(
-        std::chrono::milliseconds(FRAME_TIME - elapsed));
+          std::chrono::milliseconds(FRAME_TIME - elapsed));
     }
   }
 
@@ -63,11 +71,12 @@ void Game::run() {
 
 /**
  * @brief Handles user input for player movement and game controls.
- * Updates the player's position based on arrow key and 'wasd' input and allows quitting with 'Q'.
- * 
+ * Updates the player's position based on arrow key and 'wasd' input and allows
+ * quitting with 'Q'.
+ *
  */
 void Game::handleInput() {
-  int ch = getch();  
+  int ch = getch();
   Vector2D newPos = player.getPosition();
 
   switch (ch) {
@@ -96,12 +105,13 @@ void Game::handleInput() {
       break;
   }
 
-    player.moveTo(newPos);
+  player.moveTo(newPos);
 }
 
 /**
- * @brief Updates the game state - moves enemies toward the player and checks for collisions.
- * 
+ * @brief Updates the game state - moves enemies toward the player and checks
+ * for collisions.
+ *
  */
 void Game::update() {
   // Move enemies toward player
@@ -120,8 +130,9 @@ void Game::update() {
 }
 
 /**
- * @brief Renders the game state. Draws the player, enemies, and UI elements on the screen.
- * 
+ * @brief Renders the game state. Draws the player, enemies, and UI elements on
+ * the screen.
+ *
  */
 void Game::render() {
   clear();
@@ -147,7 +158,7 @@ void Game::render() {
 
 /**
  * @brief Spawns enemies in the game.
- * 
+ *
  */
 void Game::spawnEnemies() {
   enemies.push_back(std::make_unique<Enemy>(10, 10, 'G'));

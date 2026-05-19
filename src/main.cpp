@@ -1,5 +1,6 @@
-#include "game.h"
 #include <ncurses.h>
+
+#include "game.h"
 
 int main() {
   int maxX, maxY;
