@@ -3,6 +3,8 @@ project(Roguelike)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Find and configure ncurses
+find_package(Curses REQUIRED)
 
 # Source files
 set(SOURCES
@@ -11,7 +13,6 @@ set(SOURCES
     src/player.cpp
     src/enemy.cpp
     src/level.cpp
-    src/terminal_graphics.cpp
 )
 
 # Header files
@@ -20,12 +21,13 @@ set(HEADERS
     include/player.h
     include/enemy.h
     include/level.h
-    include/terminal_graphics.h
     include/vector2d.h
 )
 
 # Create executable
 add_executable(roguelike ${SOURCES} ${HEADERS})
 
-# Include directories
+# Link ncurses and include directories for project headers and ncurses
 target_include_directories(roguelike PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(roguelike PRIVATE ${CURSES_INCLUDE_DIRS})
+target_link_libraries(roguelike PRIVATE ${CURSES_LIBRARIES})

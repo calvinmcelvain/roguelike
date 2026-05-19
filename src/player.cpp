@@ -8,6 +8,7 @@ void Player::moveUp() { position.y--; }
 void Player::moveDown() { position.y++; }
 void Player::moveLeft() { position.x--; }
 void Player::moveRight() { position.x++; }
+void Player::moveTo(Vector2D newPos) { position = newPos; }
 
 void Player::takeDamage(int damage) {
   health -= damage;

@@ -1,8 +1,11 @@
 #include "game.h"
 
-#include <conio.h>
+#include <ncurses.h>
 
+#include <cstdlib>
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 #include "enemy.h"
 
@@ -11,63 +14,65 @@ Game::Game(int width, int height)
       screenHeight(height),
       player(width / 2, height / 2),
       level(width, height),
-      graphics(width, height),
       isRunning(true) {
   spawnEnemies();
 }
 
 void Game::run() {
-  std::cout
-      << "Roguelike Game Started! Use arrow keys to move. Press Q to quit.\n";
-  std::cout << "Press any key to begin...\n";
-  _getch();
+  printw("Roguelike Game Started! Use arrow keys to move. Press Q to quit.\n");
+  printw("Press any key to begin...\n");
+  box(stdscr, 0, 0);
+  refresh();
+  const int FPS = 60;
+  const int FRAME_TIME = 1000 / FPS;
 
   while (isRunning) {
+    auto start = std::chrono::high_resolution_clock::now();
     handleInput();
     update();
     render();
+    // -------- FPS control --------
+    auto end = std::chrono::high_resolution_clock::now();
+    auto elapsed =
+      std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+    if (elapsed < FRAME_TIME) {
+      std::this_thread::sleep_for(
+        std::chrono::milliseconds(FRAME_TIME - elapsed));
+    }
   }
 
+  endwin();
   std::cout << "Game Over!\n";
 }
 
 void Game::handleInput() {
-  if (_kbhit()) {
-    int ch = _getch();
+  int ch = getch();  
+  Vector2D newPos = player.getPosition();
 
-    switch (ch) {
-      case 'q':
-      case 'Q':
-        isRunning = false;
-        break;
-      case 224:  // Extended key
-      {
-        int arrowKey = _getch();
-        Vector2D newPos = player.getPosition();
-
-        if (arrowKey == 72)
-          newPos.y--;  // Up
-        else if (arrowKey == 80)
-          newPos.y++;  // Down
-        else if (arrowKey == 75)
-          newPos.x--;  // Left
-        else if (arrowKey == 77)
-          newPos.x++;  // Right
-
-        if (level.isWalkable(newPos)) {
-          if (arrowKey == 72)
-            player.moveUp();  // Up
-          else if (arrowKey == 80)
-            player.moveDown();  // Down
-          else if (arrowKey == 75)
-            player.moveLeft();  // Left
-          else if (arrowKey == 77)
-            player.moveRight();  // Right
-        }
-        break;
-      }
-    }
+  switch (ch) {
+    case KEY_UP:  // Up
+      newPos.y--;
+      break;
+    case KEY_DOWN:  // Down
+      newPos.y++;
+      break;
+    case KEY_LEFT:  // Left
+      newPos.x--;
+      break;
+    case KEY_RIGHT:  // Right
+      newPos.x++;
+      break;
+    case 'q':
+    case 'Q':
+      isRunning = false;
+      break;
+    default:
+      mvprintw(2, 0, "Invalid key\n");
+      break;
   }
+
+    player.moveTo(newPos);
 }
 
 void Game::update() {
@@ -87,33 +92,25 @@ void Game::update() {
 }
 
 void Game::render() {
-  graphics.clear();
-
-  // Draw level
-  for (int y = 0; y < level.getHeight(); y++) {
-    for (int x = 0; x < level.getWidth(); x++) {
-      graphics.draw(x, y, level.getTile(Vector2D(x, y)));
-    }
-  }
+  clear();
+  box(stdscr, 0, 0);
 
   // Draw player
   Vector2D playerPos = player.getPosition();
-  graphics.draw(playerPos.x, playerPos.y, '@');
+  mvaddch(playerPos.y, playerPos.x, '@');
 
   // Draw enemies
   for (const auto& enemy : enemies) {
     if (enemy->isAlive()) {
       Vector2D enemyPos = enemy->getPosition();
-      graphics.draw(enemyPos.x, enemyPos.y, enemy->getSymbol());
+      mvaddch(enemyPos.y, enemyPos.x, enemy->getSymbol());
     }
   }
 
   // Draw UI
-  graphics.drawString(1, screenHeight - 1,
-                      "HP: " + std::to_string(player.getHealth()) + "/" +
-                          std::to_string(player.getMaxHealth()));
+  mvprintw(0, 0, "HP: %d/%d", player.getHealth(), player.getMaxHealth());
 
-  graphics.render();
+  refresh();
 }
 
 void Game::spawnEnemies() {

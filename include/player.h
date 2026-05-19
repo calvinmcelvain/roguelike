@@ -12,6 +12,7 @@ class Player {
   void moveDown();
   void moveLeft();
   void moveRight();
+  void moveTo(Vector2D newPos);
 
   // Getters
   Vector2D getPosition() const { return position; }
