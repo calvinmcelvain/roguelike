@@ -71,16 +71,20 @@ void Game::handleInput() {
   Vector2D newPos = player.getPosition();
 
   switch (ch) {
-    case KEY_UP || 'w':  // Up
+    case KEY_UP:
+    case 'w':  // Up
       newPos.y--;
       break;
-    case KEY_DOWN || 's':  // Down
+    case KEY_DOWN:
+    case 's':  // Down
       newPos.y++;
       break;
-    case KEY_LEFT || 'a':  // Left
+    case KEY_LEFT:
+    case 'a':  // Left
       newPos.x--;
       break;
-    case KEY_RIGHT || 'd':  // Right
+    case KEY_RIGHT:
+    case 'd':  // Right
       newPos.x++;
       break;
     case 'q':
