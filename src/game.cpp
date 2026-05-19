@@ -9,6 +9,13 @@
 
 #include "enemy.h"
 
+/**
+ * @brief Construct a new Game:: Game object
+ * 
+ * @param width width of the game screen
+ * @param height height of the game screen
+ * Initializes the player in the center of the screen, generates the level, and spawns enemies
+ */
 Game::Game(int width, int height)
     : screenWidth(width),
       screenHeight(height),
@@ -18,24 +25,32 @@ Game::Game(int width, int height)
   spawnEnemies();
 }
 
+/**
+ * @brief Runs the main game loop.
+ * Handles input, updates game state, and renders the screen at a fixed frame rate.
+ * 
+ */
 void Game::run() {
   printw("Roguelike Game Started! Use arrow keys to move. Press Q to quit.\n");
   printw("Press any key to begin...\n");
   box(stdscr, 0, 0);
   refresh();
+  // Set frame rate control variables
   const int FPS = 60;
   const int FRAME_TIME = 1000 / FPS;
 
   while (isRunning) {
+    // -------- Frame start --------
     auto start = std::chrono::high_resolution_clock::now();
     handleInput();
     update();
     render();
-    // -------- FPS control --------
+    // -------- Frame end --------
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed =
       std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
+    //TODO: Sleep to maintain consistent frame rate (there may be a better solution)
     if (elapsed < FRAME_TIME) {
       std::this_thread::sleep_for(
         std::chrono::milliseconds(FRAME_TIME - elapsed));
@@ -46,21 +61,26 @@ void Game::run() {
   std::cout << "Game Over!\n";
 }
 
+/**
+ * @brief Handles user input for player movement and game controls.
+ * Updates the player's position based on arrow key and 'wasd' input and allows quitting with 'Q'.
+ * 
+ */
 void Game::handleInput() {
   int ch = getch();  
   Vector2D newPos = player.getPosition();
 
   switch (ch) {
-    case KEY_UP:  // Up
+    case KEY_UP || 'w':  // Up
       newPos.y--;
       break;
-    case KEY_DOWN:  // Down
+    case KEY_DOWN || 's':  // Down
       newPos.y++;
       break;
-    case KEY_LEFT:  // Left
+    case KEY_LEFT || 'a':  // Left
       newPos.x--;
       break;
-    case KEY_RIGHT:  // Right
+    case KEY_RIGHT || 'd':  // Right
       newPos.x++;
       break;
     case 'q':
@@ -75,6 +95,10 @@ void Game::handleInput() {
     player.moveTo(newPos);
 }
 
+/**
+ * @brief Updates the game state - moves enemies toward the player and checks for collisions.
+ * 
+ */
 void Game::update() {
   // Move enemies toward player
   Vector2D playerPos = player.getPosition();
@@ -91,6 +115,10 @@ void Game::update() {
   }
 }
 
+/**
+ * @brief Renders the game state. Draws the player, enemies, and UI elements on the screen.
+ * 
+ */
 void Game::render() {
   clear();
   box(stdscr, 0, 0);
@@ -113,6 +141,10 @@ void Game::render() {
   refresh();
 }
 
+/**
+ * @brief Spawns enemies in the game.
+ * 
+ */
 void Game::spawnEnemies() {
   enemies.push_back(std::make_unique<Enemy>(10, 10, 'G'));
   enemies.push_back(std::make_unique<Enemy>(20, 15, 'O'));
