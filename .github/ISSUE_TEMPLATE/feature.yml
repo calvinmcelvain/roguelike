@@ -18,11 +18,11 @@ body:
     attributes:
       label: Motivation
       description: Why does this feature matter?
-      placeholder: Explain the gameplay, technical, or UX reason
+      placeholder: (Optional) Explain the gameplay, technical, or UX reason
 
   - type: textarea
     id: implementation
     attributes:
       label: Possible Implementation
       description: Optional notes on how this could work
-      placeholder: Systems, algorithms, files, ideas, etc.
+      placeholder: (Optional) Systems, algorithms, files, ideas, etc.
