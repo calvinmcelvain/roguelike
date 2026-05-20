@@ -35,10 +35,12 @@ Game::Game(int width, int height)
  */
 void Game::run() {
   printw("Roguelike Game Started! Use arrow keys to move. Press Q to quit.\n");
-  printw("Press any key to begin...\n");
+  printw("Press SPACE to begin...\n");
 
-  box(stdscr, 0, 0);
-  refresh();
+  int ch;
+  do {
+    ch = getch();
+  } while (ch != ' ');
 
   // Set frame rate control variables
   const int FPS = 20;
