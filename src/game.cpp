@@ -44,7 +44,7 @@ void Game::run() {
   const int FPS = 30;
   const int FRAME_TIME = 1000 / FPS;
 
-  while (isRunning) {
+  while (isRunning && player.isAlive()) {
     // -------- Frame start --------
     auto start = std::chrono::high_resolution_clock::now();
     handleInput();
