@@ -41,7 +41,7 @@ void Game::run() {
   refresh();
 
   // Set frame rate control variables
-  const int FPS = 30;
+  const int FPS = 20;
   const int FRAME_TIME = 1000 / FPS;
 
   while (isRunning && player.isAlive()) {
