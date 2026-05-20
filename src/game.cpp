@@ -138,9 +138,11 @@ void Game::render() {
   clear();
   box(stdscr, 0, 0);
 
-  // Draw player
-  Vector2D playerPos = player.getPosition();
-  mvaddch(playerPos.y, playerPos.x, '@');
+  // Draw player... if alive.
+  if (player.isAlive()) {
+    Vector2D playerPos = player.getPosition();
+    mvaddch(playerPos.y, playerPos.x, '@');
+  }
 
   // Draw enemies
   for (const auto& enemy : enemies) {

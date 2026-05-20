@@ -18,6 +18,7 @@ class Player {
   Vector2D getPosition() const { return position; }
   int getHealth() const { return health; }
   int getMaxHealth() const { return maxHealth; }
+  bool isAlive() const { return health > 0; }
 
   // Combat
   void takeDamage(int damage);
