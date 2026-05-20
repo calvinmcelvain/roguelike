@@ -7,7 +7,6 @@
 #include "enemy.h"
 #include "level.h"
 #include "player.h"
-#include "terminal_graphics.h"
 
 class Enemy;
 
@@ -22,7 +21,6 @@ class Game {
   int screenWidth, screenHeight;
   Player player;
   Level level;
-  TerminalGraphics graphics;
   std::vector<std::unique_ptr<Enemy>> enemies;
 
   bool isRunning;
