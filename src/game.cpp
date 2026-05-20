@@ -105,7 +105,10 @@ void Game::handleInput() {
       break;
   }
 
-  player.moveTo(newPos);
+  // only allow movement if player alive.
+  if (player.isAlive()) {
+    player.moveTo(newPos);
+  }
 }
 
 /**
