@@ -48,7 +48,7 @@ class Entity {
   // abstract methods.
   virtual void takeDamage(int damage) = 0;
 
- private:
+ protected:
   Vector2D position;
   char symbol;
   int health;
