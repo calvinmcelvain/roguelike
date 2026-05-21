@@ -5,13 +5,6 @@
 
 class Entity {
  public:
-  /**
-   * @brief Construct a new Entity object.
-   *
-   * @param x Starting column position of entity.
-   * @param y Starting row position of entity.
-   * @param symbol Terminal representation of entity.
-   */
   Entity(int x, int y, char symbol)
       : position(x, y), health(100), symbol(symbol) {};
 
