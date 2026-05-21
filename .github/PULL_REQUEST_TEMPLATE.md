@@ -13,11 +13,8 @@ Closes #
 ## Changes Made
 
 - 
-- 
-- 
 
 ---
 
 ## Notes
 
-Anything reviewers should know.

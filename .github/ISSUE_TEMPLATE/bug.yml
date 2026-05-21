@@ -28,10 +28,10 @@ body:
     id: expected
     attributes:
       label: Expected Behavior
-      placeholder: What should happen instead?
+      placeholder: (Optional) What should happen instead?
 
   - type: textarea
     id: notes
     attributes:
       label: Notes
-      description: Logs, screenshots, theories, related systems, etc.
+      description: (Optional) Logs, screenshots, theories, related systems, etc.
