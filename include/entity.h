@@ -3,10 +3,6 @@
 
 #include "vector2d.h"
 
-/**
- * @brief Abstract entity class. Implements common entity methods.
- *
- */
 class Entity {
  public:
   /**
