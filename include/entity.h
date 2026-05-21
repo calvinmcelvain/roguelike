@@ -12,7 +12,7 @@ class Entity {
    * @param y Starting row position of entity.
    * @param symbol Terminal representation of entity.
    */
-  Entity(int x, int y, const char symbol)
+  Entity(int x, int y, char symbol)
       : position(x, y), health(100), symbol(symbol) {};
 
   virtual ~Entity() = default;
@@ -22,21 +22,21 @@ class Entity {
    *
    * @return const int
    */
-  const int getHealth() { return health; };
+  int getHealth() const { return health; };
 
   /**
    * @brief Get the entities symbol.
    *
    * @return const char
    */
-  const char getSymbol() { return symbol; };
+  char getSymbol() const { return symbol; };
 
   /**
    * @brief Get the entity position.
    *
    * @return const Vector2D
    */
-  const Vector2D getPosition() { return position; };
+  Vector2D getPosition() const { return position; };
 
   /**
    * @brief Entity is alive.
@@ -44,7 +44,7 @@ class Entity {
    * @return true If alive.
    * @return false If not alive.
    */
-  const bool isAlive() { return health > 0; };
+  bool isAlive() const { return health > 0; };
 
   /**
    * @brief Move entity to new position.
@@ -54,14 +54,10 @@ class Entity {
   void moveTo(Vector2D newPos) { position = newPos; };
 
   // abstract methods.
-  virtual void takeDamage() = 0;
-  virtual void moveUp() = 0;
-  virtual void moveDown() = 0;
-  virtual void moveLeft() = 0;
-  virtual void moveRight() = 0;
+  virtual void takeDamage(int damage) = 0;
 
  private:
-  const char symbol;
+  char symbol;
   int health;
   Vector2D position;
 };
