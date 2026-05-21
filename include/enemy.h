@@ -1,30 +1,46 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+#include "entity.h"
 #include "vector2d.h"
 
-class Enemy {
+class Enemy : public Entity {
  public:
-  Enemy(int x, int y, char symbol = 'E');
+  /**
+   * @brief Construct a new Enemy object.
+   *
+   * @param x Starting column position of enemy.
+   * @param y Starting row position of enemy.
+   * @param symbol Terminal representation of enemy. By default, 'E'.
+   * @param health Starting health of enemy. By default, 100.
+   * @param attackDamage The attack damage of enemy. By default, 10.
+   */
+  Enemy(int x, int y, char symbol = 'E', int health = 100,
+        int attackDamage = 10)
+      : Entity(x, y, symbol, health), attackDamage(attackDamage) {};
 
-  // Movement
-  void moveTo(Vector2D newPos);
+  /**
+   * @brief Get the enemy's attack damage.
+   *
+   * @return int
+   */
+  int getAttackDamage() const { return attackDamage; };
+
+  /**
+   * @brief Reduce enemy health by damage amount.
+   *
+   * @param damage Amount of damage to apply.
+   */
+  void takeDamage(int damage) override;
+
+  /**
+   * @brief Move one step toward the player's position.
+   *
+   * @param playerPos Current position of the player.
+   */
   void moveTowardPlayer(Vector2D playerPos);
 
-  // Getters
-  Vector2D getPosition() const { return position; }
-  char getSymbol() const { return symbol; }
-  int getHealth() const { return health; }
-  bool isAlive() const { return health > 0; }
-
-  // Combat
-  void takeDamage(int damage);
-  int getAttackDamage() const { return attackDamage; }
-
  private:
-  Vector2D position;
-  char symbol;
-  int health;
   int attackDamage;
 };
 
