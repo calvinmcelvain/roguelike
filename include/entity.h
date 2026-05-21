@@ -50,8 +50,19 @@ class Entity {
    */
   const bool isAlive() { return health > 0; };
 
+  /**
+   * @brief Move entity to new position.
+   *
+   * @param newPos Corrdinates of new position.
+   */
+  void moveTo(Vector2D newPos) { position = newPos; };
+
   // abstract methods.
   virtual void takeDamage() = 0;
+  virtual void moveUp() = 0;
+  virtual void moveDown() = 0;
+  virtual void moveLeft() = 0;
+  virtual void moveRight() = 0;
 
  private:
   const char symbol;
