@@ -4,9 +4,6 @@
 #include <cmath>
 #include <cstdlib>
 
-Enemy::Enemy(int x, int y, char symbol, int health, int attackDamage)
-    : Entity(x, y, symbol, health), attackDamage(attackDamage) {};
-
 void Enemy::moveTowardPlayer(Vector2D playerPos) {
   // 25% chance to to not move.
   bool noMove = (std::rand() % 4) == 3;
