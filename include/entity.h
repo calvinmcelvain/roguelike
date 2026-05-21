@@ -5,8 +5,8 @@
 
 class Entity {
  public:
-  Entity(int x, int y, char symbol)
-      : position(x, y), health(100), symbol(symbol) {};
+  Entity(int x, int y, char symbol, int health)
+      : position(x, y), symbol(symbol), health(health) {};
 
   virtual ~Entity() = default;
 
@@ -34,8 +34,7 @@ class Entity {
   /**
    * @brief Entity is alive.
    *
-   * @return true If alive.
-   * @return false If not alive.
+   * @return bool
    */
   bool isAlive() const { return health > 0; };
 
@@ -50,9 +49,9 @@ class Entity {
   virtual void takeDamage(int damage) = 0;
 
  private:
+  Vector2D position;
   char symbol;
   int health;
-  Vector2D position;
 };
 
 #endif
