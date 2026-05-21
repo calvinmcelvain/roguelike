@@ -79,24 +79,23 @@ void Game::run() {
  */
 void Game::handleInput() {
   int ch = getch();
-  Vector2D newPos = player.getPosition();
 
   switch (ch) {
     case KEY_UP:
     case 'w':  // Up
-      newPos.y--;
+      player.moveUp();
       break;
     case KEY_DOWN:
     case 's':  // Down
-      newPos.y++;
+      player.moveDown();
       break;
     case KEY_LEFT:
     case 'a':  // Left
-      newPos.x--;
+      player.moveLeft();
       break;
     case KEY_RIGHT:
     case 'd':  // Right
-      newPos.x++;
+      player.moveRight();
       break;
     case 'q':
     case 'Q':
@@ -105,11 +104,6 @@ void Game::handleInput() {
     default:
       mvprintw(2, 0, "Invalid key\n");
       break;
-  }
-
-  // only allow movement if player alive.
-  if (player.isAlive()) {
-    player.moveTo(newPos);
   }
 }
 
