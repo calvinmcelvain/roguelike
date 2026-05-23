@@ -9,30 +9,6 @@
 
 #include "enemy.h"
 
-/**
- * @brief Construct a new Game:: Game object.
- *
- * @param width width of the game screen
- * @param height height of the game screen
- * Initializes the player in the center of the screen, generates the level, and
- * spawns enemies.
- *
- */
-Game::Game(int width, int height)
-    : screenWidth(width),
-      screenHeight(height),
-      player(width / 2, height / 2),
-      level(width, height),
-      isRunning(true) {
-  spawnEnemies();
-}
-
-/**
- * @brief Runs the main game loop.
- * Handles input, updates game state, and renders the screen at a fixed frame
- * rate.
- *
- */
 void Game::run() {
   printw("Roguelike Game Started! Use arrow keys to move. Press Q to quit.\n");
   printw("Press SPACE to begin...\n");
@@ -71,12 +47,6 @@ void Game::run() {
   std::cout << "Game Over!\n";
 }
 
-/**
- * @brief Handles user input for player movement and game controls.
- * Updates the player's position based on arrow key and 'wasd' input and allows
- * quitting with 'Q'.
- *
- */
 void Game::handleInput() {
   int ch = getch();
 
@@ -107,11 +77,6 @@ void Game::handleInput() {
   }
 }
 
-/**
- * @brief Updates the game state - moves enemies toward the player and checks
- * for collisions.
- *
- */
 void Game::update() {
   // Move enemies toward player
   Vector2D playerPos = player.getPosition();
@@ -128,11 +93,6 @@ void Game::update() {
   }
 }
 
-/**
- * @brief Renders the game state. Draws the player, enemies, and UI elements on
- * the screen.
- *
- */
 void Game::render() {
   clear();
   box(stdscr, 0, 0);
@@ -157,10 +117,6 @@ void Game::render() {
   refresh();
 }
 
-/**
- * @brief Spawns enemies in the game.
- *
- */
 void Game::spawnEnemies() {
   enemies.push_back(std::make_unique<Enemy>(10, 10, 'G'));
   enemies.push_back(std::make_unique<Enemy>(20, 15, 'O'));
