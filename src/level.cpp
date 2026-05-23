@@ -1,9 +1,5 @@
 #include "level.h"
 
-Level::Level(int width, int height) : width(width), height(height) {
-  generate();
-}
-
 void Level::generate() {
   tiles.resize(height, std::vector<char>(width, ' '));
 

@@ -7,7 +7,7 @@
 
 class Level {
  public:
-  Level(int width, int height);
+  Level(int width, int height) : width(width), height(height) { generate(); };
 
   // Check if position is walkable
   bool isWalkable(Vector2D pos) const;
