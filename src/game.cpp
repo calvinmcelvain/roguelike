@@ -18,9 +18,7 @@ void Game::run() {
     ch = getch();
   } while (ch != ' ');
 
-  // Set frame rate control variables
-  const int FPS = 20;
-  const int FRAME_TIME = 1000 / FPS;
+  const auto frame_duration = getDuration();
 
   while (isRunning && player.isAlive()) {
     // -------- Frame start --------
@@ -31,15 +29,15 @@ void Game::run() {
 
     // -------- Frame end --------
     auto end = std::chrono::high_resolution_clock::now();
-    auto elapsed =
-        std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
-            .count();
+    auto elapsed = end - start;
 
     // TODO: Sleep to maintain consistent frame rate (there may be a better
     // solution)
-    if (elapsed < FRAME_TIME) {
-      std::this_thread::sleep_for(
-          std::chrono::milliseconds(FRAME_TIME - elapsed));
+    if (elapsed < frame_duration) {
+      auto sleep_time =
+          frame_duration -
+          std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
+      std::this_thread::sleep_for(sleep_time);
     }
   }
 
