@@ -66,7 +66,7 @@ class Entity {
    *
    * @return constexpr std::chrono::nanoseconds
    */
-  constexpr std::chrono::nanoseconds getSpeedHz() {
+  std::chrono::nanoseconds getSpeedHz() const {
     if (speed > 0) {
       return std::chrono::nanoseconds(1000000000 / speed);
     }
