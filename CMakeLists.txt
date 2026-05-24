@@ -13,6 +13,7 @@ set(SOURCES
     src/player.cpp
     src/enemy.cpp
     src/level.cpp
+    src/room.cpp
 )
 
 # Header files
@@ -22,6 +23,7 @@ set(HEADERS
     include/enemy.h
     include/level.h
     include/vector2d.h
+    include/room.h
 )
 
 # Create executable
