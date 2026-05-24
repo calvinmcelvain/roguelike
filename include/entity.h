@@ -1,12 +1,18 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <chrono>
+
 #include "vector2d.h"
 
 class Entity {
  public:
-  Entity(int x, int y, char symbol, int health)
-      : position(x, y), symbol(symbol), health(health) {};
+  Entity(int x, int y, char symbol, int health, int speed)
+      : position(x, y),
+        symbol(symbol),
+        health(health),
+        speed(speed),
+        lastMoveTime(std::chrono::high_resolution_clock::now()) {};
 
   virtual ~Entity() = default;
 
@@ -52,6 +58,39 @@ class Entity {
   Vector2D position;
   char symbol;
   int health;
+  int speed;
+  std::chrono::high_resolution_clock::time_point lastMoveTime;
+
+  /**
+   * @brief Get the speed as frequency.
+   *
+   * @return constexpr std::chrono::nanoseconds
+   */
+  constexpr std::chrono::nanoseconds getSpeedHz() {
+    if (speed > 0) {
+      return std::chrono::nanoseconds(1000000000 / speed);
+    }
+
+    return std::chrono::nanoseconds::max();
+  };
+
+  /**
+   * @brief Move hook that moves player to new position based on their speed.
+   *
+   * @param newPos The potential new position to move entitiy.
+   *
+   */
+  void moveHook(Vector2D newPos) {
+    auto hook_time = std::chrono::high_resolution_clock::now();
+    auto time_delta = hook_time - lastMoveTime;
+
+    // if time since last move is >= set speed, entity can move. otherwise,
+    // leave as current position.
+    if (time_delta >= getSpeedHz()) {
+      lastMoveTime = hook_time;
+      moveTo(newPos);
+    };
+  };
 };
 
 #endif
