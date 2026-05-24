@@ -13,11 +13,13 @@ class Enemy : public Entity {
    * @param y Starting row position of enemy.
    * @param symbol Terminal representation of enemy. By default, 'E'.
    * @param health Starting health of enemy. By default, 100.
+   * @param speed Moves per second. For example, if speed = 60 → can move every
+   frame at 60fps. By default, 10.
    * @param attackDamage The attack damage of enemy. By default, 10.
    */
-  Enemy(int x, int y, char symbol = 'E', int health = 100,
+  Enemy(int x, int y, char symbol = 'E', int health = 100, int speed = 10,
         int attackDamage = 10)
-      : Entity(x, y, symbol, health), attackDamage(attackDamage) {};
+      : Entity(x, y, symbol, health, speed), attackDamage(attackDamage) {};
 
   /**
    * @brief Get the enemy's attack damage.
