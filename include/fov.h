@@ -1,0 +1,53 @@
+#ifndef FOV_H
+#define FOV_H
+
+#include <unordered_set>
+#include <vector>
+
+#include "vector2d.h"
+
+class FOV {
+ public:
+  std::vector<Vector2D> cells;
+
+  /**
+   * @brief Construct a new FOV.
+   *
+   * @param cells Vector of positions that defines the FOV.
+   *
+   */
+  FOV(std::vector<Vector2D> cells) : cells(cells) {};
+
+  /**
+   * @brief Determine if a position is in an origin's FOV.
+   *
+   * Checks whether (position - origin) is one of the stored offsets.
+   *
+   * @param origin The position of origin with this FOV.
+   * @param position The position of the target.
+   * @return bool True if position is in FOV (based on origin).
+   *
+   */
+  bool in(Vector2D origin, Vector2D position) const;
+
+  /**
+   * @brief Return all positions covered by FOV from origin.
+   *
+   * @param origin The position of origin with this FOV.
+   * @return std::vector<Vector2D>
+   *
+   */
+  std::vector<Vector2D> absoluteCells(Vector2D origin) const;
+};
+
+/**
+ * @brief Create a filled ellipse FOV, compensating for terminal aspect ratio.
+ *
+ * @param radius Radius in columns (horizontal).
+ * @param aspectRatio Row height / column width ratio (default 0.5 for 2:1).
+ * @return FOV
+ *
+ */
+FOV ellipseFOV(int radius, float aspectRatio = 0.5f);
+
+#endif
