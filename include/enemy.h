@@ -2,6 +2,7 @@
 #define ENEMY_H
 
 #include "entity.h"
+#include "fov.h"
 #include "vector2d.h"
 
 class Enemy : public Entity {
@@ -16,10 +17,14 @@ class Enemy : public Entity {
    * @param speed Moves per second. For example, if speed = 60 → can move every
    frame at 60fps. By default, 10.
    * @param attackDamage The attack damage of enemy. By default, 10.
+   * @param attackFOV The FOV of the enemy. By default, an ellipse FOV w/
+   * rx = 12, ry = 4.
    */
   Enemy(int x, int y, char symbol = 'E', int health = 100, int speed = 10,
-        int attackDamage = 10)
-      : Entity(x, y, symbol, health, speed), attackDamage(attackDamage) {};
+        int attackDamage = 10, FOV attackFOV = ellipseFOV(12, 4))
+      : Entity(x, y, symbol, health, speed),
+        attackDamage(attackDamage),
+        attackFOV(attackFOV) {};
 
   /**
    * @brief Get the enemy's attack damage.
@@ -44,6 +49,7 @@ class Enemy : public Entity {
 
  private:
   int attackDamage;
+  FOV attackFOV;
 };
 
 #endif
