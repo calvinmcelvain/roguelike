@@ -1,23 +1,23 @@
 #ifndef FOV_H
 #define FOV_H
 
-#include <unordered_set>
+#include <set>
 #include <vector>
 
 #include "vector2d.h"
 
 class FOV {
  public:
-  std::vector<Vector2D> cells;
+  std::set<Vector2D> offsets;
 
   /**
    * @brief Construct a new FOV.
    *
-   * @param offsets Vector of offset positions (from origin) that defines the
+   * @param offsets Set of offset positions (from origin) that defines the
    * FOV.
    *
    */
-  FOV(std::vector<Vector2D> offsets) : cells(offsets) {};
+  FOV(std::set<Vector2D> offsets) : offsets(std::move(offsets)) {};
 
   /**
    * @brief Determine if a position is in an origin's FOV.
@@ -32,13 +32,13 @@ class FOV {
   bool in(Vector2D origin, Vector2D position) const;
 
   /**
-   * @brief Return all positions covered by FOV from origin.
+   * @brief Return all absolute positions covered by FOV from origin.
    *
    * @param origin The position of origin with this FOV.
    * @return std::vector<Vector2D>
    *
    */
-  std::vector<Vector2D> absoluteCells(Vector2D origin) const;
+  std::vector<Vector2D> absoluteFOV(Vector2D origin) const;
 };
 
 /**
