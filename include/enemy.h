@@ -18,10 +18,10 @@ class Enemy : public Entity {
    frame at 60fps. By default, 10.
    * @param attackDamage The attack damage of enemy. By default, 10.
    * @param attackFOV The FOV of the enemy. By default, an ellipse FOV w/
-   * rx = 12, ry = 4.
+   * rx = 20, ry = 10.
    */
   Enemy(int x, int y, char symbol = 'E', int health = 100, int speed = 10,
-        int attackDamage = 10, FOV attackFOV = ellipseFOV(12, 4))
+        int attackDamage = 10, FOV attackFOV = ellipseFOV(20, 10))
       : Entity(x, y, symbol, health, speed),
         attackDamage(attackDamage),
         attackFOV(attackFOV) {};
