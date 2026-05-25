@@ -15,6 +15,7 @@ set(SOURCES
     src/player.cpp
     src/enemy.cpp
     src/level.cpp
+    src/fov.cpp
 )
 
 # Create executable.
