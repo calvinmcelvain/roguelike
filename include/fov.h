@@ -44,11 +44,12 @@ class FOV {
 /**
  * @brief Create a filled ellipse FOV, compensating for terminal aspect ratio.
  *
- * @param radius Radius in columns (horizontal).
- * @param aspectRatio Row height / column width ratio (default 0.5 for 2:1).
+ * @param rx Radius in columns (horizontal).
+ * @param ry Radius in rows (vertical). NOTE: row heights are roughly equiv. to
+ * 2-3 column widths.
  * @return FOV
  *
  */
-FOV ellipseFOV(int radius, float aspectRatio = 0.5f);
+FOV ellipseFOV(int rx, int ry);
 
 #endif
