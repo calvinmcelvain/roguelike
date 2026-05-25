@@ -13,10 +13,11 @@ class FOV {
   /**
    * @brief Construct a new FOV.
    *
-   * @param cells Vector of positions that defines the FOV.
+   * @param offsets Vector of offset positions (from origin) that defines the
+   * FOV.
    *
    */
-  FOV(std::vector<Vector2D> cells) : cells(cells) {};
+  FOV(std::vector<Vector2D> offsets) : cells(offsets) {};
 
   /**
    * @brief Determine if a position is in an origin's FOV.
