@@ -17,6 +17,11 @@ struct Vector2D {
   bool operator==(const Vector2D& other) const {
     return x == other.x && y == other.y;
   }
+
+  bool operator<(const Vector2D& other) const {
+    if (y != other.y) return y < other.y;
+    return x < other.x;
+  }
 };
 
 #endif
