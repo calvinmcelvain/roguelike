@@ -32,12 +32,12 @@ FOV ellipseFOV(int rx, int ry) {
     //    1 = (dx / rx)^2 + (dy / ry)^2
     //    dx = rx * sqrt(1 - (dy / ry)^2)
     // could've used std::ceil here, but rounding down is fine w/ me.
-    float y_norm = dy / ry;
+    float y_norm = static_cast<float>(dy) / static_cast<float>(ry);
     int dx_max = static_cast<int>(rx * std::sqrt(1.0f - y_norm * y_norm));
 
     // iterate through -dx --> dx.
     for (int dx = -dx_max; dx <= dx_max; ++dx) {
-      offsets.insert({dx, dy});
+      offsets.insert(Vector2D(dx, dy));
     };
   }
 
