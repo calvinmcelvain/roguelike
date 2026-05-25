@@ -64,7 +64,7 @@ class Entity {
   /**
    * @brief Get the speed as frequency.
    *
-   * @return constexpr std::chrono::nanoseconds
+   * @return std::chrono::nanoseconds
    */
   std::chrono::nanoseconds getSpeedHz() const {
     if (speed > 0) {
