@@ -1,14 +1,14 @@
 #include "player.h"
 
-#include "vector2d.h"
+#include "coordinate.h"
 
-void Player::moveUp() { moveHook(Vector2D(position.x, position.y - 1)); }
+void Player::moveUp() { moveHook(Coordinate(position.x, position.y - 1)); }
 
-void Player::moveDown() { moveHook(Vector2D(position.x, position.y + 1)); }
+void Player::moveDown() { moveHook(Coordinate(position.x, position.y + 1)); }
 
-void Player::moveLeft() { moveHook(Vector2D(position.x - 1, position.y)); }
+void Player::moveLeft() { moveHook(Coordinate(position.x - 1, position.y)); }
 
-void Player::moveRight() { moveHook(Vector2D(position.x + 1, position.y)); }
+void Player::moveRight() { moveHook(Coordinate(position.x + 1, position.y)); }
 
 void Player::takeDamage(int damage) {
   health -= damage;

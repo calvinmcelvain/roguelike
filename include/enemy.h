@@ -1,9 +1,9 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+#include "coordinate.h"
 #include "entity.h"
 #include "fov.h"
-#include "vector2d.h"
 
 class Enemy : public Entity {
  public:
@@ -45,7 +45,7 @@ class Enemy : public Entity {
    *
    * @param playerPos Current position of the player.
    */
-  void moveTowardPlayer(Vector2D playerPos);
+  void moveTowardPlayer(Coordinate playerPos);
 
  private:
   int attackDamage;

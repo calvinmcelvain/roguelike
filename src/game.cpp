@@ -77,7 +77,7 @@ void Game::handleInput() {
 
 void Game::update() {
   // Move enemies toward player
-  Vector2D playerPos = player.getPosition();
+  Coordinate playerPos = player.getPosition();
 
   for (auto& enemy : enemies) {
     if (enemy->isAlive()) {
@@ -97,14 +97,14 @@ void Game::render() {
 
   // Draw player... if alive.
   if (player.isAlive()) {
-    Vector2D playerPos = player.getPosition();
+    Coordinate playerPos = player.getPosition();
     mvaddch(playerPos.y, playerPos.x, '@');
   }
 
   // Draw enemies
   for (const auto& enemy : enemies) {
     if (enemy->isAlive()) {
-      Vector2D enemyPos = enemy->getPosition();
+      Coordinate enemyPos = enemy->getPosition();
       mvaddch(enemyPos.y, enemyPos.x, enemy->getSymbol());
     }
   }

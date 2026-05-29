@@ -4,9 +4,9 @@
 #include <cmath>
 #include <cstdlib>
 
-#include "vector2d.h"
+#include "coordinate.h"
 
-void Enemy::moveTowardPlayer(Vector2D playerPos) {
+void Enemy::moveTowardPlayer(Coordinate playerPos) {
   // only move toward player if in FOV.
   if (attackFOV.in(position, playerPos)) {
     bool needsX = position.x != playerPos.x;
@@ -15,7 +15,7 @@ void Enemy::moveTowardPlayer(Vector2D playerPos) {
     int newX = position.x + (position.x < playerPos.x ? 1 : -1);
     int newY = position.y + (position.y < playerPos.y ? 1 : -1);
 
-    Vector2D newPos = position;
+    Coordinate newPos = position;
     if (needsX && needsY) {
       // only randomly choose when both movements can be made.
       if (std::rand() % 2 == 0) {

@@ -4,11 +4,11 @@
 #include <set>
 #include <vector>
 
-#include "vector2d.h"
+#include "coordinate.h"
 
 class FOV {
  public:
-  std::set<Vector2D> offsets;
+  std::set<Coordinate> offsets;
 
   /**
    * @brief Construct a new FOV.
@@ -17,7 +17,7 @@ class FOV {
    * FOV.
    *
    */
-  FOV(std::set<Vector2D> offsets) : offsets(std::move(offsets)) {};
+  FOV(std::set<Coordinate> offsets) : offsets(std::move(offsets)) {};
 
   /**
    * @brief Determine if a position is in an origin's FOV.
@@ -29,16 +29,16 @@ class FOV {
    * @return bool True if position is in FOV (based on origin).
    *
    */
-  bool in(Vector2D origin, Vector2D position) const;
+  bool in(Coordinate origin, Coordinate position) const;
 
   /**
    * @brief Return all absolute positions covered by FOV from origin.
    *
    * @param origin The position of origin with this FOV.
-   * @return std::vector<Vector2D>
+   * @return std::vector<Coordinate>
    *
    */
-  std::vector<Vector2D> absoluteFOV(Vector2D origin) const;
+  std::vector<Coordinate> absoluteFOV(Coordinate origin) const;
 };
 
 /**

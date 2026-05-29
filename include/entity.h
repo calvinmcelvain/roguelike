@@ -3,7 +3,7 @@
 
 #include <chrono>
 
-#include "vector2d.h"
+#include "coordinate.h"
 
 class Entity {
  public:
@@ -33,9 +33,9 @@ class Entity {
   /**
    * @brief Get the entity position.
    *
-   * @return const Vector2D
+   * @return const Coordinate
    */
-  Vector2D getPosition() const { return position; };
+  Coordinate getPosition() const { return position; };
 
   /**
    * @brief Entity is alive.
@@ -49,13 +49,13 @@ class Entity {
    *
    * @param newPos Corrdinates of new position.
    */
-  void moveTo(Vector2D newPos) { position = newPos; };
+  void moveTo(Coordinate newPos) { position = newPos; };
 
   // abstract methods.
   virtual void takeDamage(int damage) = 0;
 
  protected:
-  Vector2D position;
+  Coordinate position;
   char symbol;
   int health;
   int speed;
@@ -80,7 +80,7 @@ class Entity {
    * @param newPos The potential new position to move entitiy.
    *
    */
-  void moveHook(Vector2D newPos) {
+  void moveHook(Coordinate newPos) {
     auto hook_time = std::chrono::high_resolution_clock::now();
     auto time_delta = hook_time - lastMoveTime;
 
