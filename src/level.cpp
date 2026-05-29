@@ -15,14 +15,14 @@ void Level::generate() {
   }
 }
 
-bool Level::isWalkable(Vector2D pos) const {
+bool Level::isWalkable(Coordinate pos) const {
   if (pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height) return false;
 
   char tile = tiles[pos.y][pos.x];
   return tile != '#';
 }
 
-char Level::getTile(Vector2D pos) const {
+char Level::getTile(Coordinate pos) const {
   if (pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height) return ' ';
   return tiles[pos.y][pos.x];
 }

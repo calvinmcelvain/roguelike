@@ -4,18 +4,18 @@
 #include <set>
 #include <vector>
 
-bool FOV::in(Vector2D origin, Vector2D position) const {
-  Vector2D offset = origin - position;
+bool FOV::in(Coordinate origin, Coordinate position) const {
+  Coordinate offset = origin - position;
   return offsets.count(offset) > 0;
 };
 
-std::vector<Vector2D> FOV::absoluteFOV(Vector2D origin) const {
+std::vector<Coordinate> FOV::absoluteFOV(Coordinate origin) const {
   // initialize a vector of positions w/ size of number of offsets.
-  std::vector<Vector2D> positions;
+  std::vector<Coordinate> positions;
   positions.reserve(offsets.size());
 
   // iterate through & get the absolute position based on origin pos.
-  for (const Vector2D& offset : offsets) {
+  for (const Coordinate& offset : offsets) {
     positions.push_back(origin + offset);
   };
 
@@ -24,7 +24,7 @@ std::vector<Vector2D> FOV::absoluteFOV(Vector2D origin) const {
 
 FOV ellipseFOV(int rx, int ry) {
   // need to get all offsets to create an FOV.
-  std::set<Vector2D> offsets;
+  std::set<Coordinate> offsets;
 
   // iterate through -y --> y.
   for (int dy = -ry; dy <= ry; ++dy) {
@@ -37,7 +37,7 @@ FOV ellipseFOV(int rx, int ry) {
 
     // iterate through -dx --> dx.
     for (int dx = -dx_max; dx <= dx_max; ++dx) {
-      offsets.insert(Vector2D(dx, dy));
+      offsets.insert(Coordinate(dx, dy));
     };
   }
 

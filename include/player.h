@@ -1,8 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "coordinate.h"
 #include "entity.h"
-#include "vector2d.h"
 
 class Player : public Entity {
  public:

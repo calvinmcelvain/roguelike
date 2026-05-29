@@ -3,14 +3,14 @@
 
 #include <vector>
 
-#include "vector2d.h"
+#include "coordinate.h"
 
 class Level {
  public:
   Level(int width, int height) : width(width), height(height) { generate(); };
 
   // Check if position is walkable
-  bool isWalkable(Vector2D pos) const;
+  bool isWalkable(Coordinate pos) const;
 
   // Generate level (simple box room for now)
   void generate();
@@ -18,7 +18,7 @@ class Level {
   // Getters
   int getWidth() const { return width; }
   int getHeight() const { return height; }
-  char getTile(Vector2D pos) const;
+  char getTile(Coordinate pos) const;
 
  private:
   int width, height;
