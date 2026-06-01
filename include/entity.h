@@ -47,6 +47,30 @@ class Entity {
    */
   void moveTo(Coordinate newPos) { position = newPos; };
 
+  /**
+   * @brief Moves entity up one row.
+   *
+   */
+  void moveUp() { moveHook(Coordinate(position.x, position.y - 1)); };
+
+  /**
+   * @brief Moves entity down one row.
+   *
+   */
+  void moveDown() { moveHook(Coordinate(position.x, position.y + 1)); };
+
+  /**
+   * @brief Moves entity right one column.
+   *
+   */
+  void moveLeft() { moveHook(Coordinate(position.x - 1, position.y)); };
+
+  /**
+   * @brief Moves entity left one column.
+   *
+   */
+  void moveRight() { moveHook(Coordinate(position.x + 1, position.y)); };
+
   // abstract methods.
   virtual void takeDamage(int damage) = 0;
 
