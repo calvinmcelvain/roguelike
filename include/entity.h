@@ -80,19 +80,6 @@ class Entity {
   int frameCounter;
 
   /**
-   * @brief Get the speed as frequency.
-   *
-   * @return std::chrono::nanoseconds
-   */
-  std::chrono::nanoseconds getSpeedHz() const {
-    if (speed > 0) {
-      return std::chrono::nanoseconds(1000000000 / speed);
-    }
-
-    return std::chrono::nanoseconds::max();
-  };
-
-  /**
    * @brief Move hook that moves player to new position based on their speed.
    *
    * @param newPos The potential new position to move entitiy.
