@@ -8,11 +8,7 @@
 class Entity {
  public:
   Entity(int x, int y, char symbol, int health, int speed)
-      : position(x, y),
-        symbol(symbol),
-        health(health),
-        speed(speed),
-        lastMoveTime(std::chrono::high_resolution_clock::now()) {};
+      : position(x, y), symbol(symbol), health(health), speed(speed) {};
 
   virtual ~Entity() = default;
 
@@ -59,7 +55,7 @@ class Entity {
   char symbol;
   int health;
   int speed;
-  std::chrono::high_resolution_clock::time_point lastMoveTime;
+  int frameCounter;
 
   /**
    * @brief Get the speed as frequency.
@@ -81,13 +77,11 @@ class Entity {
    *
    */
   void moveHook(Coordinate newPos) {
-    auto hook_time = std::chrono::high_resolution_clock::now();
-    auto time_delta = hook_time - lastMoveTime;
+    // when move hook is called, we assume a frame.
+    frameCounter += 1;
 
-    // if time since last move is >= set speed, entity can move. otherwise,
-    // leave as current position.
-    if (time_delta >= getSpeedHz()) {
-      lastMoveTime = hook_time;
+    if (frameCounter % speed == 0) {
+      frameCounter = 0;  // reset counter.
       moveTo(newPos);
     };
   };
