@@ -14,8 +14,8 @@ class Enemy : public Entity {
    * @param y Starting row position of enemy.
    * @param symbol Terminal representation of enemy. By default, 'E'.
    * @param health Starting health of enemy. By default, 100.
-   * @param speed Moves per second. For example, if speed = 60 → can move every
-   frame at 60fps. By default, 10.
+   * @param speed Frames per move. For example, speed = 2, means an enemy can
+   * move per every 2 frames/renders. By default, equal to 10.
    * @param attackDamage The attack damage of enemy. By default, 10.
    * @param attackFOV The FOV of the enemy. By default, an ellipse FOV w/
    * rx = 20, ry = 10.
