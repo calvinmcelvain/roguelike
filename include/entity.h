@@ -32,6 +32,13 @@ class Entity {
   Coordinate getPosition() const { return position; };
 
   /**
+   * @brief Get entity speed.
+   *
+   * @return const int [frames / move]
+   */
+  int getSpeed() const { return speed; };
+
+  /**
    * @brief Entity is alive.
    *
    * @return bool
