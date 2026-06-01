@@ -1,6 +1,8 @@
 
 #include "fov.h"
 
+#include <math.h>
+
 #include <set>
 #include <vector>
 
