@@ -12,35 +12,11 @@ class Player : public Entity {
    * @param x Starting column position of player.
    * @param y Starting row position of player.
    * @param health Starting health of player.
-   * @param speed Moves per second. For example, if speed = 60 → can move every
-   frame at 60fps. By default, 60.
+   * @param speed Frames per move. For example, speed = 2, means a player can
+   * move per every 2 frames/renders. By default, equal to 1.
    */
-  Player(int x, int y, int health = 100, int speed = 60)
+  Player(int x, int y, int health = 100, int speed = 1)
       : Entity(x, y, '@', health, speed), maxHealth(health) {};
-
-  /**
-   * @brief Moves player up one row.
-   *
-   */
-  void moveUp();
-
-  /**
-   * @brief Moves player down one row.
-   *
-   */
-  void moveDown();
-
-  /**
-   * @brief Moves player right one column.
-   *
-   */
-  void moveLeft();
-
-  /**
-   * @brief Moves player left one column.
-   *
-   */
-  void moveRight();
 
   /**
    * @brief Get the initial max health of player.
