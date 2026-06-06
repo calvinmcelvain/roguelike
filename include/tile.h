@@ -1,35 +1,48 @@
+// tile.h
 #ifndef TILE_H
 #define TILE_H
+
+#include <unordered_map>
 
 #include "coordinate.h"
 
 /**
- * @brief Enumeration for different types of tiles in the game, such as walls,
- * floors, doors, etc.
+ * @brief Enum for tile types
  *
  */
-enum class TileType {
-  Wall,
-  Floor,
-  Door,
-  Corridor,
-  Lava,
-  Water,
-  // etc.
+enum class TileType { Wall, Floor, Door };
+
+/**
+ * @brief attributes for each tile type, used in a static lookup table in Tile
+ * class
+ *
+ */
+struct TileAttributes {
+  char symbol;
+  bool walkable;
 };
 
 /**
- * @brief Data structure representing a single tile on the game map, including
- * its type, symbol for display, and whether it's walkable. This can be extended
- * to include additional properties like entities present on the tile, loot,
- * enemies, etc.
+ * @brief Tile class represents a single tile on the map, with type, position,
+ * and properties.
  *
  */
-struct Tile {
+class Tile {
+ public:
+  Tile(TileType type = TileType::Wall, Coordinate position = Coordinate(0, 0))
+      : type(type), position(position) {}
+
+  char getSymbol() const;
+  bool isWalkable() const;
+  TileType getType() const { return type; }
+  Coordinate getPosition() const { return position; }
+
+ private:
   TileType type;
-  char symbol;
-  bool walkable;
-  // Optional: entities, items, blood, etc.
+  Coordinate position;
+
+  // Static lookup table for tile attributes based on TileType
+  static const std::unordered_map<int, TileAttributes> typeAttributes;
 };
 
 #endif
