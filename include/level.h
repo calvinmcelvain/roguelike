@@ -1,6 +1,7 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
+#include <map>
 #include <vector>
 
 #include "coordinate.h"
@@ -17,9 +18,6 @@ class Level {
 
   void addRoom(Room room);
 
-  // Check if position is walkable
-  // bool isWalkable(Coordinate pos) const;
-
   // Generate level (simple box room for now)
   void generate();
 
@@ -29,7 +27,8 @@ class Level {
 
  private:
   int roomCount;
-  std::vector<std::vector<int>> roomList;  // adjacency list of rooms
+  std::map<int, Room> roomList;  // Map of roomID to Room object
+  std::vector<std::vector<int>> roomConnections;  // adjacency list of rooms
 };
 
 #endif

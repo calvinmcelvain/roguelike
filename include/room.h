@@ -7,9 +7,11 @@
 #include "tile.h"
 
 struct Room {
-  Coordinate position;  // Top-left corner
-  int width, height;
-  std::vector<std::vector<Tile>> tiles;  // Local tile grid for room
-  int roomID;  // Unique identifier for graph connections
+  static constexpr int WIDTH = 175,
+                       HEIGHT = 50;  // Needs to be static to be used in tile
+                                     // grid declaration (compile time constant)
+  Tile tiles[WIDTH][HEIGHT];  // Local tile grid for room
+  int roomID;                 // Unique identifier for graph connections
+  Room(int id) : roomID(id) {}
 };
 #endif

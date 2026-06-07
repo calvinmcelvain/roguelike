@@ -37,6 +37,8 @@ class Tile {
   TileType getType() const { return type; }
   Coordinate getPosition() const { return position; }
 
+  static TileType charToTileType(char ch);
+
  private:
   TileType type;
   Coordinate position;

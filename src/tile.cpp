@@ -14,3 +14,14 @@ char Tile::getSymbol() const {
 bool Tile::isWalkable() const {
   return typeAttributes.at(static_cast<int>(type)).walkable;
 }
+
+TileType Tile::charToTileType(char ch) {
+  switch (ch) {
+    case '#':
+      return TileType::Wall;
+    case '+':
+      return TileType::Door;
+    default:
+      return TileType::Floor;
+  }
+}
