@@ -3,21 +3,33 @@
 
 #include "coordinate.h"
 
-class Tile {
- public:
-  Tile(char symbol = '#', bool walkable = false,
-       Coordinate position = Coordinate(0, 0))
-      : symbol(symbol), walkable(walkable), position(position) {};
+/**
+ * @brief Enumeration for different types of tiles in the game, such as walls,
+ * floors, doors, etc.
+ *
+ */
+enum class TileType {
+  Wall,
+  Floor,
+  Door,
+  Corridor,
+  Lava,
+  Water,
+  // etc.
+};
 
-  char getSymbol() const { return symbol; }
-  bool isWalkable() const { return walkable; }
-  Coordinate getPosition() const { return position; }
-
- private:
+/**
+ * @brief Data structure representing a single tile on the game map, including
+ * its type, symbol for display, and whether it's walkable. This can be extended
+ * to include additional properties like entities present on the tile, loot,
+ * enemies, etc.
+ *
+ */
+struct Tile {
+  TileType type;
   char symbol;
   bool walkable;
-  Coordinate position;
-  void generateTile(char symbol, Coordinate position);
+  // Optional: entities, items, blood, etc.
 };
 
 #endif
