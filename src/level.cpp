@@ -8,7 +8,8 @@
 #include "tile.h"
 
 void Level::generate() {
-  std::ifstream file("../assets/room.txt");
+  std::ifstream file;
+  file.open("./assets/room.txt");
 
   // Check if file opened successfully
   if (!file) {
@@ -20,13 +21,15 @@ void Level::generate() {
   std::string line;
   int y = 0;
   while (std::getline(file, line)) {
-    std::vector<char> row;
     int x = 0;
     for (char ch : line) {
-      room.tiles[x][y] = Tile(Tile::charToTileType(ch), Coordinate(x, y));
+      Tile tile = Tile(Tile::charToTileType(ch), Coordinate(x, y));
+      room.tiles[x][y] = tile;
+      room.tileList.push_back(tile);
       x++;
     }
     y++;
   }
-  this->roomList[room.roomID] = room;
+  this->roomList.insert({room.roomID, room});
+  file.close();
 }

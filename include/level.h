@@ -23,10 +23,11 @@ class Level {
 
   // Getters
   int getRoomCount() const { return roomCount; }
-  // char getTile(Coordinate pos) const;
+  int getCurrentRoomID() const { return currentRoomID; }
+  const Room& getCurrentRoom() const { return roomList.at(currentRoomID); }
 
  private:
-  int roomCount;
+  int roomCount, currentRoomID = 0;
   std::map<int, Room> roomList;  // Map of roomID to Room object
   std::vector<std::vector<int>> roomConnections;  // adjacency list of rooms
 };

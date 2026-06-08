@@ -20,6 +20,7 @@ void Game::run() {
 
   const auto frame_duration = getDuration();
 
+  this->level.generate();
   while (isRunning && player.isAlive()) {
     // -------- Frame start --------
     auto start = std::chrono::high_resolution_clock::now();
@@ -94,6 +95,9 @@ void Game::update() {
 void Game::render() {
   clear();
   box(stdscr, 0, 0);
+  for (Tile tile : level.getCurrentRoom().tileList) {
+    mvaddch(tile.getPosition().y, tile.getPosition().x, tile.getSymbol());
+  }
 
   // Draw player... if alive.
   if (player.isAlive()) {
