@@ -3,6 +3,10 @@ description: Improve internal structure, readability, or maintainability
 title: "refactor: <description>"
 labels:
   - refactor
+assignees:
+  - calvinmcelvain
+  - Collin-McElvain
+
 body:
   - type: textarea
     id: problem

@@ -3,6 +3,10 @@ description: Add or improve project documentation
 title: "docs: <description>"
 labels:
   - docs
+assignees:
+  - calvinmcelvain
+  - Collin-McElvain
+
 body:
   - type: textarea
     id: summary
