@@ -3,6 +3,10 @@ description: Report a bug or unintended behavior
 title: "fix: <description>"
 labels:
   - fix
+assignees:
+  - calvinmcelvain
+  - Collin-McElvain
+
 body:
   - type: textarea
     id: description

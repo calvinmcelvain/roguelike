@@ -3,6 +3,10 @@ description: Propose a new feature or gameplay/system improvement
 title: "feat: <description>"
 labels:
   - feat
+assignees:
+  - calvinmcelvain
+  - Collin-McElvain
+
 body:
   - type: textarea
     id: summary
