@@ -16,7 +16,7 @@ class Level {
  public:
   Level(int roomCount) : roomCount(roomCount) { generate(); };
 
-  void addRoom(Room&& room);
+  void addRoom(Room room);
 
   // Generate level (simple box room for now)
   void generate();
@@ -24,8 +24,7 @@ class Level {
   // Getters
   int getRoomCount() const { return roomCount; }
   int getCurrentRoomID() const { return currentRoomID; }
-  const Room& getCurrentRoom() const;
-  bool hasRoom(int roomID) const { return roomList.count(roomID) > 0; }
+  const Room& getCurrentRoom() const { return roomList.at(currentRoomID); }
 
  private:
   int roomCount, currentRoomID = 0;
