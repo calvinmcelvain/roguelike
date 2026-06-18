@@ -22,6 +22,10 @@ struct Coordinate {
     if (y != other.y) return y < other.y;
     return x < other.x;
   }
+  
+  bool isValid(int maxX, int maxY) const {
+    return x >= 0 && y >= 0 && x < maxX && y < maxY;
+  }
 };
 
 #endif

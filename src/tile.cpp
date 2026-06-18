@@ -21,6 +21,8 @@ TileType Tile::charToTileType(char ch) {
       return TileType::Wall;
     case '+':
       return TileType::Door;
+    case '.':
+      return TileType::Floor;
     default:
       return TileType::Floor;
   }
