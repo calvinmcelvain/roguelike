@@ -1,28 +1,35 @@
 #include "level.h"
 
+#include <fstream>
+#include <iostream>
+#include <string>
+
+#include "room.h"
+#include "tile.h"
+
 void Level::generate() {
-  tiles.resize(height, std::vector<char>(width, ' '));
+  std::ifstream file;
+  file.open("./assets/room.txt");
 
-  // Draw borders
-  for (int x = 0; x < width; x++) {
-    tiles[0][x] = '#';
-    tiles[height - 1][x] = '#';
+  // Check if file opened successfully
+  if (!file) {
+    std::cerr << "Error: Could not open file './assets/room.txt'\n";
+    return;
   }
 
-  for (int y = 0; y < height; y++) {
-    tiles[y][0] = '#';
-    tiles[y][width - 1] = '#';
+  Room room = Room(this->roomList.size());
+  std::string line;
+  int y = 0;
+  while (std::getline(file, line) && y < Room::HEIGHT) {
+    int x = 0;
+    for (char ch : line) {
+      if (x >= Room::WIDTH) break;
+      Tile tile = Tile(Tile::charToTileType(ch), Coordinate(x, y));
+      room.tiles[x][y] = tile;
+      x++;
+    }
+    y++;
   }
-}
-
-bool Level::isWalkable(Coordinate pos) const {
-  if (pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height) return false;
-
-  char tile = tiles[pos.y][pos.x];
-  return tile != '#';
-}
-
-char Level::getTile(Coordinate pos) const {
-  if (pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height) return ' ';
-  return tiles[pos.y][pos.x];
+  this->roomList.insert({room.roomID, std::move(room)});
+  file.close();
 }

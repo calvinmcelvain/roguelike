@@ -29,7 +29,7 @@ class Game {
         screenHeight(height),
         fps(fps),
         player(width / 2, height / 2),
-        level(width, height),
+        level(1),
         isRunning(true) {
     spawnEnemies();
   };

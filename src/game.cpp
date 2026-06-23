@@ -47,23 +47,24 @@ void Game::run() {
 
 void Game::handleInput() {
   int ch = getch();
+  Coordinate newPlayerPos = player.getPosition();
 
   switch (ch) {
     case KEY_UP:
     case 'w':  // Up
-      player.moveUp();
+      newPlayerPos.y -= 1;
       break;
     case KEY_DOWN:
     case 's':  // Down
-      player.moveDown();
+      newPlayerPos.y += 1;
       break;
     case KEY_LEFT:
     case 'a':  // Left
-      player.moveLeft();
+      newPlayerPos.x -= 1;
       break;
     case KEY_RIGHT:
     case 'd':  // Right
-      player.moveRight();
+      newPlayerPos.x += 1;
       break;
     case 'q':
     case 'Q':
@@ -72,6 +73,13 @@ void Game::handleInput() {
     default:
       mvprintw(2, 0, "Invalid key\n");
       break;
+  }
+  if (newPlayerPos.x >= 0 && newPlayerPos.x < Room::WIDTH &&
+      newPlayerPos.y >= 0 && newPlayerPos.y < Room::HEIGHT &&
+      level.getCurrentRoom()
+          .tiles[newPlayerPos.x][newPlayerPos.y]
+          .isWalkable()) {
+    player.moveTo(newPlayerPos);
   }
 }
 
@@ -94,6 +102,13 @@ void Game::update() {
 void Game::render() {
   clear();
   box(stdscr, 0, 0);
+  const Room& room = level.getCurrentRoom();
+  for (int x = 0; x < Room::WIDTH; ++x) {
+    for (int y = 0; y < Room::HEIGHT; ++y) {
+      const Tile& tile = room.tiles[x][y];
+      mvaddch(tile.getPosition().y, tile.getPosition().x, tile.getSymbol());
+    }
+  }
 
   // Draw player... if alive.
   if (player.isAlive()) {

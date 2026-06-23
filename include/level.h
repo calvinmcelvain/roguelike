@@ -1,28 +1,35 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
+#include <map>
 #include <vector>
 
 #include "coordinate.h"
+#include "room.h"
 
+/**
+ * @brief Level class represents the game map/level, including the layout of
+ * rooms and doors.
+ *
+ */
 class Level {
  public:
-  Level(int width, int height) : width(width), height(height) { generate(); };
+  Level(int roomCount) : roomCount(roomCount) { generate(); };
 
-  // Check if position is walkable
-  bool isWalkable(Coordinate pos) const;
+  void addRoom(Room room);
 
   // Generate level (simple box room for now)
   void generate();
 
   // Getters
-  int getWidth() const { return width; }
-  int getHeight() const { return height; }
-  char getTile(Coordinate pos) const;
+  int getRoomCount() const { return roomCount; }
+  int getCurrentRoomID() const { return currentRoomID; }
+  const Room& getCurrentRoom() const { return roomList.at(currentRoomID); }
 
  private:
-  int width, height;
-  std::vector<std::vector<char>> tiles;
+  int roomCount, currentRoomID = 0;
+  std::map<int, Room> roomList;  // Map of roomID to Room object
+  std::vector<std::vector<int>> roomConnections;  // adjacency list of rooms
 };
 
 #endif

@@ -29,7 +29,7 @@ void Enemy::moveTowardPlayer(Coordinate playerPos) {
       newPos.y = newY;
     }
 
-    moveHook(newPos);
+    moveTo(newPos);
   }
 }
 
