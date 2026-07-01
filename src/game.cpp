@@ -29,16 +29,18 @@ void Game::run() {
 
     // -------- Frame end --------
     auto end = std::chrono::high_resolution_clock::now();
-    auto elapsed = end - start;
+    auto elapsed =
+        std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
-    // TODO: Sleep to maintain consistent frame rate (there may be a better
-    // solution)
     if (elapsed < frame_duration) {
-      auto sleep_time =
-          frame_duration -
-          std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
-      std::this_thread::sleep_for(sleep_time);
+      std::this_thread::sleep_for(frame_duration - elapsed);
     }
+
+    // for debug window.
+    std::chrono::duration<double, std::milli> totalFrame =
+        std::chrono::high_resolution_clock::now() - start;
+
+    currentFps = totalFrame.count() > 0.0 ? 1000.0 / totalFrame.count() : 0.0;
   }
 
   endwin();
@@ -99,36 +101,7 @@ void Game::update() {
   }
 }
 
-void Game::render() {
-  clear();
-  box(stdscr, 0, 0);
-  const Room& room = level.getCurrentRoom();
-  for (int x = 0; x < Room::WIDTH; ++x) {
-    for (int y = 0; y < Room::HEIGHT; ++y) {
-      const Tile& tile = room.tiles[x][y];
-      mvaddch(tile.getPosition().y, tile.getPosition().x, tile.getSymbol());
-    }
-  }
-
-  // Draw player... if alive.
-  if (player.isAlive()) {
-    Coordinate playerPos = player.getPosition();
-    mvaddch(playerPos.y, playerPos.x, '@');
-  }
-
-  // Draw enemies
-  for (const auto& enemy : enemies) {
-    if (enemy->isAlive()) {
-      Coordinate enemyPos = enemy->getPosition();
-      mvaddch(enemyPos.y, enemyPos.x, enemy->getSymbol());
-    }
-  }
-
-  // Draw UI
-  mvprintw(0, 0, "HP: %d/%d", player.getHealth(), player.getMaxHealth());
-
-  refresh();
-}
+void Game::render() { renderer.compose(); };
 
 void Game::spawnEnemies() {
   enemies.push_back(std::make_unique<Enemy>(10, 10, 'G'));
