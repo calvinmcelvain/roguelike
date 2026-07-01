@@ -19,6 +19,7 @@ set(SOURCES
     src/tile.cpp
     src/layers/map_layer.cpp
     src/layers/entity_layer.cpp
+    src/layers/hud_layer.cpp
 )
 
 # Create executable.
