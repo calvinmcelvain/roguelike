@@ -16,7 +16,7 @@ class DebugLayer : public RenderStack {
    * @param playerPos The current position of the player.
    */
   DebugLayer(int h, int w, const int& fps, double& frameTimeMs,
-             Coordinate& playerPos)
+             const Coordinate& playerPos)
       : RenderStack(h, w),
         fps(fps),
         frameTimeMs(frameTimeMs),
@@ -31,7 +31,7 @@ class DebugLayer : public RenderStack {
  private:
   const int& fps;
   double& frameTimeMs;
-  Coordinate& playerPos;
+  const Coordinate& playerPos;
 };
 
 #endif
