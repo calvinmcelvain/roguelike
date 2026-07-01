@@ -13,7 +13,7 @@ class HUDLayer : public RenderStack {
    * @param w Width of the layer window in columns.
    * @param player The player object to track stats, health, position, etc.
    */
-  HUDLayer::HUDLayer(int h, int w, const Player& player)
+  HUDLayer(int h, int w, const Player& player)
       : RenderStack(h, w), player(player) {};
 
   /**
