@@ -6,8 +6,13 @@
 #include <vector>
 
 #include "enemy.h"
+#include "layers/debug_layer.h"
+#include "layers/entity_layer.h"
+#include "layers/hud_layer.h"
+#include "layers/map_layer.h"
 #include "level.h"
 #include "player.h"
+#include "renderer.h"
 
 class Enemy;
 
@@ -21,7 +26,7 @@ class Game {
    * @param fps frames per second of game. By default, 60.
    *
    * Initializes the player in the center of the screen, generates the level,
-   * and spawns enemies.
+   * spawns enemies, and builds the render layer stack.
    *
    */
   Game(int width = 175, int height = 50, int fps = 60)
@@ -31,7 +36,25 @@ class Game {
         player(width / 2, height / 2),
         level(1),
         isRunning(true) {
+    // generate enemy objects first..
     spawnEnemies();
+
+    // add window overlays.
+    // TODO: probably want to create an Enum for layer ordering.
+    renderer.addLayer(
+        1, std::make_unique<MapLayer>(screenHeight, screenWidth, level));
+    renderer.addLayer(2, std::make_unique<EntityLayer>(
+                             screenHeight, screenWidth, player, enemies));
+    renderer.addLayer(
+        3, std::make_unique<HUDLayer>(screenHeight, screenWidth, player));
+
+    // if not prod, add the debug window.
+    // TODO: create debug & prod builds. <-- `NDEBUG` (no debug) can be enabled
+    // via a build flag: `-DNDEBUG`.
+#ifndef NDEBUG
+    renderer.addLayer(4, std::make_unique<DebugLayer>(screenHeight, screenWidth,
+                                                      currentFps, player));
+#endif
   };
 
   /**
@@ -45,11 +68,13 @@ class Game {
  private:
   const int screenWidth, screenHeight;
   const int fps;
+  double currentFps;
   Player player;
   Level level;
   std::vector<std::unique_ptr<Enemy>> enemies;
 
   bool isRunning;
+  Renderer renderer;
 
   /**
    * @brief Get the frame duraction in milliseconds.
