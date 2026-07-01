@@ -28,7 +28,7 @@ class HUDLayer : public RenderStack {
    * health bar. Positive offsets shift bar up, negative offsets shift bar
    * down. By default, 1.
    */
-  void drawPlayerHealthBar(int offsetX = 0, int offsetY = 1) {};
+  void drawPlayerHealthBar(int offsetX = 0, int offsetY = 1);
 
   /**
    * @brief Draw the HP indicator one row above the player's current position.
