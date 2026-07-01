@@ -1,7 +1,7 @@
 #ifndef DEBUG_LAYER_H
 #define DEBUG_LAYER_H
 
-#include "coordinate.h"
+#include "player.h"
 #include "render_stack.h"
 
 class DebugLayer : public RenderStack {
@@ -11,16 +11,11 @@ class DebugLayer : public RenderStack {
    *
    * @param h Height of the layer window (in rows).
    * @param w Width of the layer window (in columns).
-   * @param fps The frames-per-second of game.
-   * @param frameTimeMs The milliseconds between frames after rendering.
-   * @param playerPos The current position of the player.
+   * @param currentFps Current frames-per-second game is rendering at.
+   * @param player The player object.
    */
-  DebugLayer(int h, int w, const int& fps, int& frameTimeMs,
-             const Coordinate& playerPos)
-      : RenderStack(h, w),
-        fps(fps),
-        frameTimeMs(frameTimeMs),
-        playerPos(playerPos) {};
+  DebugLayer(int h, int w, const double& currentFps, const Player& player)
+      : RenderStack(h, w), currentFps(currentFps), player(player) {};
 
   /**
    * @brief Draw frame timing and player position at the bottom row.
@@ -29,9 +24,8 @@ class DebugLayer : public RenderStack {
   void doRender() override;
 
  private:
-  const int& fps;
-  int& frameTimeMs;
-  const Coordinate& playerPos;
+  const double& currentFps;
+  const Player& player;
 };
 
 #endif
