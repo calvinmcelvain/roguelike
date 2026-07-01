@@ -2,6 +2,8 @@
 
 #include <ncurses.h>
 
+#include <memory>
+
 void EntityLayer::drawEnemies() {
   // iterate through vector of enemies.
   for (const auto& enemy : enemies) {
