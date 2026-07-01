@@ -21,6 +21,7 @@ set(SOURCES
     src/layers/entity_layer.cpp
     src/layers/hud_layer.cpp
     src/layers/debug_layer.cpp
+    src/renderer.cpp
 )
 
 # Create executable.
