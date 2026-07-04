@@ -48,9 +48,7 @@ class Game {
     renderer.addLayer(
         3, std::make_unique<HUDLayer>(screenHeight, screenWidth, player));
 
-    // if not prod, add the debug window.
-    // TODO: create debug & prod builds. <-- `NDEBUG` (no debug) can be enabled
-    // via a build flag: `-DNDEBUG`.
+    // if debug build, add the debug window.
 #ifndef NDEBUG
     renderer.addLayer(4, std::make_unique<DebugLayer>(screenHeight, screenWidth,
                                                       currentFps, player));
