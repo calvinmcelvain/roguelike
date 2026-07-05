@@ -1,7 +1,6 @@
 #ifndef ENTITY_LAYER_H
 #define ENTITY_LAYER_H
 
-#include <memory>
 #include <vector>
 
 #include "enemy.h"
