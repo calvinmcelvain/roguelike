@@ -15,8 +15,8 @@ class DebugLayer : public RenderStack {
    * @param frameTimeMs The milliseconds between frames after rendering.
    * @param playerPos The current position of the player.
    */
-  DebugLayer(int h, int w, const int& fps, double& frameTimeMs,
-             Coordinate& playerPos)
+  DebugLayer::DebugLayer(int h, int w, int fps, double frameTimeMs,
+                         Coordinate playerPos)
       : RenderStack(h, w),
         fps(fps),
         frameTimeMs(frameTimeMs),
@@ -29,9 +29,9 @@ class DebugLayer : public RenderStack {
   void doRender() override;
 
  private:
-  const int& fps;
-  double& frameTimeMs;
-  Coordinate& playerPos;
+  int fps;
+  double frameTimeMs;
+  Coordinate playerPos;
 };
 
 #endif
