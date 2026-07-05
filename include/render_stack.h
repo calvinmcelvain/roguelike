@@ -11,7 +11,8 @@ class RenderStack {
    * @param h Height of the layer window (in rows).
    * @param w Width of the layer window (in columns).
    */
-  RenderStack(int h, int w) : win(newwin(h, w, 0, 0)), height(h), width(w) {};
+  RenderStack::RenderStack(int h, int w)
+      : win(newwin(h, w, 0, 0)), height(h), width(w) {};
 
   // need to make sure the ncurses::WINDOW is deleted if object is.
   virtual ~RenderStack() {

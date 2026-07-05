@@ -22,8 +22,8 @@ class EntityLayer : public RenderStack {
    * @param player The player entity to draw each frame.
    * @param enemies The enemy list to draw each frame.
    */
-  EntityLayer(int h, int w, const Player& player,
-              const std::vector<std::unique_ptr<Enemy>>& enemies)
+  EntityLayer::EntityLayer(int h, int w, const Player& player,
+                           const std::vector<std::unique_ptr<Enemy>>& enemies)
       : RenderStack(h, w), player(player), enemies(enemies) {};
 
   /**
