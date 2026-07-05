@@ -18,7 +18,6 @@ set(SOURCES
     src/fov.cpp
     src/tile.cpp
     src/layers/map_layer.cpp
-    src/layers/entity_layer.cpp
 )
 
 # Create executable.
