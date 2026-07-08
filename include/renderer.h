@@ -2,6 +2,7 @@
 #define RENDERER_H
 
 #include <map>
+#include <memory>
 
 #include "render_stack.h"
 
