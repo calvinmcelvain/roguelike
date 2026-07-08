@@ -46,7 +46,7 @@ class Game {
     renderer.addLayer(2, std::make_unique<EntityLayer>(
                              screenHeight, screenWidth, player, enemies));
     renderer.addLayer(
-        3, std::make_unique<HUDLayer>(screenHeight, screenWidth, player));
+        3, std::make_unique<HUDLayer>(screenHeight, screenWidth, player, level));
 
     // if debug build, add the debug window.
 #ifndef NDEBUG
