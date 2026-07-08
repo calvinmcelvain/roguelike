@@ -81,6 +81,17 @@ void Game::handleInput() {
       level.getCurrentRoom()
           .tiles[newPlayerPos.x][newPlayerPos.y]
           .isWalkable()) {
+    // Check for a linked door before applying normal movement.
+    if (level.getCurrentRoom()
+            .tiles[newPlayerPos.x][newPlayerPos.y]
+            .getType() == TileType::Door) {
+      const DoorConnection* conn =
+          level.getDoorConnection(level.getCurrentRoomID(), newPlayerPos);
+      if (conn) {
+        transitionRoom(*conn);
+        return;
+      }
+    }
     player.moveTo(newPlayerPos);
   }
 }
@@ -103,7 +114,27 @@ void Game::update() {
 
 void Game::render() { renderer.compose(); };
 
-void Game::spawnEnemies() {
-  enemies.push_back(std::make_unique<Enemy>(10, 10, 'G'));
-  enemies.push_back(std::make_unique<Enemy>(20, 15, 'O'));
+void Game::spawnEnemies() { level.loadInitialEnemies(enemies); }
+
+void Game::transitionRoom(const DoorConnection& conn) {
+  // Persist current room's enemies and load the destination room's.
+  level.transitionEnemies(level.getCurrentRoomID(), conn.destRoomID, enemies);
+
+  // Switch the active room.
+  level.setCurrentRoomID(conn.destRoomID);
+
+  // Place the player one tile inward from the destination door so they
+  // don't immediately re-trigger the door on the next input.
+  Coordinate dest = conn.destDoorPos;
+  Coordinate inward = dest;
+  if (dest.x == 0)
+    inward.x = 1;
+  else if (dest.x == Room::WIDTH - 1)
+    inward.x = Room::WIDTH - 2;
+  else if (dest.y == 0)
+    inward.y = 1;
+  else if (dest.y == Room::HEIGHT - 1)
+    inward.y = Room::HEIGHT - 2;
+
+  player.moveTo(inward);
 }

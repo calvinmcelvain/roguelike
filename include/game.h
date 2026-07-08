@@ -34,7 +34,7 @@ class Game {
         screenHeight(height),
         fps(fps),
         player(width / 2, height / 2),
-        level(1),
+        level(5),
         isRunning(true) {
     // generate enemy objects first..
     spawnEnemies();
@@ -108,6 +108,17 @@ class Game {
    *
    */
   void spawnEnemies();
+
+  /**
+   * @brief Transition the player to a connected room via a door.
+   *
+   * Persists the current room's enemies, loads the destination room's enemies,
+   * updates the active room, and places the player one tile inward from the
+   * destination door.
+   *
+   * @param conn The door connection describing the destination.
+   */
+  void transitionRoom(const DoorConnection& conn);
 };
 
 #endif
