@@ -5,25 +5,6 @@
 
 #include "tile.h"
 
-namespace {
-
-// Scan from (startX, startY) and return the first Floor tile in the room.
-// Wraps around the grid if needed. Falls back to the start position.
-Coordinate findFloorTile(const Room& room, int startX, int startY) {
-  for (int dy = 0; dy < Room::HEIGHT; dy++) {
-    for (int dx = 0; dx < Room::WIDTH; dx++) {
-      int x = (startX + dx) % Room::WIDTH;
-      int y = (startY + dy) % Room::HEIGHT;
-      if (room.tiles[x][y].getType() == TileType::Floor) {
-        return {x, y};
-      }
-    }
-  }
-  return {startX, startY};
-}
-
-}  // namespace
-
 void Level::addRoom(Room room) {
   int id = room.roomID;
   roomList.insert({id, std::move(room)});
@@ -32,7 +13,7 @@ void Level::addRoom(Room room) {
 void Level::generate() {
   // Generate rooms, each with a randomly chosen floor-plan shape.
   const RoomShape shapes[] = {RoomShape::Rectangular, RoomShape::LShape,
-                               RoomShape::TShape, RoomShape::CrossShape};
+                              RoomShape::TShape, RoomShape::CrossShape};
   const int shapeCount = 4;
 
   for (int i = 0; i < roomCount; i++) {
@@ -42,19 +23,27 @@ void Level::generate() {
   }
 
   // Wire doors in a chain: room 0 ↔ 1 ↔ 2 ↔ … ↔ (N-1).
-  // Each adjacent pair is linked via doorPositions[0] on both sides.
-  // Remaining doors on each room are cosmetic and currently unlinked.
+  //
+  // Room 0 has no incoming connection so doorPositions[0] is free to serve
+  // as its exit. Every other room reserves doorPositions[0] for the back-link
+  // from the previous room, so it uses doorPositions[1] as its forward exit.
+  // This prevents each iteration from overwriting the previous room's
+  // back-link.
   for (int i = 0; i < roomCount - 1; i++) {
     const Room& roomA = roomList.at(i);
     const Room& roomB = roomList.at(i + 1);
 
-    if (roomA.doorPositions.empty() || roomB.doorPositions.empty()) continue;
+    int exitIdx = (i == 0) ? 0 : 1;
 
-    Coordinate doorA = roomA.doorPositions[0];
-    Coordinate doorB = roomB.doorPositions[0];
+    if (static_cast<int>(roomA.doorPositions.size()) <= exitIdx ||
+        roomB.doorPositions.empty())
+      continue;
 
-    doorConnections[{i, doorA}] = {i + 1, doorB};      // A → B
-    doorConnections[{i + 1, doorB}] = {i, doorA};      // B → A
+    Coordinate doorA = roomA.doorPositions[exitIdx];
+    Coordinate doorB = roomB.doorPositions[0];  // all rooms enter at door[0]
+
+    doorConnections[{i, doorA}] = {i + 1, doorB};  // A → B
+    doorConnections[{i + 1, doorB}] = {i, doorA};  // B → A
 
     roomConnections[i].push_back(i + 1);
     roomConnections[i + 1].push_back(i);
@@ -71,14 +60,31 @@ const DoorConnection* Level::getDoorConnection(int roomID,
 void Level::spawnEnemiesForRoom(int roomID) {
   const Room& room = roomList.at(roomID);
 
-  // Spawn 2 enemies at floor tiles in the first and third quadrants so
-  // they are spread across the room regardless of shape.
-  Coordinate spawn1 = findFloorTile(room, Room::WIDTH / 4, Room::HEIGHT / 4);
-  Coordinate spawn2 =
-      findFloorTile(room, (Room::WIDTH * 3) / 4, (Room::HEIGHT * 3) / 4);
+  // Collect every Floor tile in the room. Scanning x-major means the first
+  // half of the list naturally covers the left/top portion of the shape and
+  // the second half covers the right/bottom — giving spatial spread.
+  std::vector<Coordinate> floorTiles;
+  for (int x = 0; x < Room::WIDTH; x++) {
+    for (int y = 0; y < Room::HEIGHT; y++) {
+      if (room.tiles[x][y].getType() == TileType::Floor) {
+        floorTiles.push_back({x, y});
+      }
+    }
+  }
 
-  roomEnemies[roomID].push_back(std::make_unique<Enemy>(spawn1.x, spawn1.y, 'G'));
-  roomEnemies[roomID].push_back(std::make_unique<Enemy>(spawn2.x, spawn2.y, 'O'));
+  if (floorTiles.empty()) return;
+
+  // Pick one tile from each half so enemies are spread across the room and
+  // are always guaranteed to land on a valid Floor tile regardless of shape.
+  std::size_t half = floorTiles.size() / 2;
+  Coordinate spawn1 = floorTiles[static_cast<std::size_t>(rand()) % half];
+  Coordinate spawn2 =
+      floorTiles[half + static_cast<std::size_t>(rand()) % half];
+
+  roomEnemies[roomID].push_back(
+      std::make_unique<Enemy>(spawn1.x, spawn1.y, 'G'));
+  roomEnemies[roomID].push_back(
+      std::make_unique<Enemy>(spawn2.x, spawn2.y, 'O'));
 }
 
 void Level::loadInitialEnemies(
@@ -105,4 +111,3 @@ void Level::transitionEnemies(
   // Hand the destination room's enemies to the caller.
   activeEnemies = std::move(roomEnemies[toRoomID]);
 }
-
