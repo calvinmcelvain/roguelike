@@ -20,7 +20,7 @@ void HUDLayer::drawPlayerHealthBar(int offsetX, int offsetY) {
 
 void HUDLayer::drawRoomID() {
   // Display "Room X/N" fixed at the top-left corner of the screen.
-  mvwprintw(win, 0, 0, "Room %d/%d", level.getCurrentRoomID() + 1,
+  mvwprintw(win, 0, 0, "Room:%d/%d", level.getCurrentRoomID() + 1,
             level.getRoomCount());
 };
 
