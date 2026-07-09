@@ -34,7 +34,7 @@ class Game {
         screenHeight(height),
         fps(fps),
         player(width / 2, height / 2),
-        level(1),
+        level(5),
         isRunning(true) {
     // generate enemy objects first..
     spawnEnemies();
@@ -45,8 +45,8 @@ class Game {
         1, std::make_unique<MapLayer>(screenHeight, screenWidth, level));
     renderer.addLayer(2, std::make_unique<EntityLayer>(
                              screenHeight, screenWidth, player, enemies));
-    renderer.addLayer(
-        3, std::make_unique<HUDLayer>(screenHeight, screenWidth, player));
+    renderer.addLayer(3, std::make_unique<HUDLayer>(screenHeight, screenWidth,
+                                                    player, level));
 
     // if debug build, add the debug window.
 #ifndef NDEBUG
@@ -108,6 +108,17 @@ class Game {
    *
    */
   void spawnEnemies();
+
+  /**
+   * @brief Transition the player to a connected room via a door.
+   *
+   * Persists the current room's enemies, loads the destination room's enemies,
+   * updates the active room, and places the player one tile inward from the
+   * destination door.
+   *
+   * @param conn The door connection describing the destination.
+   */
+  void transitionRoom(const DoorConnection& conn);
 };
 
 #endif

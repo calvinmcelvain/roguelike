@@ -1,8 +1,15 @@
 #include <ncurses.h>
 
+#include <cstdlib>
+#include <ctime>
+
 #include "game.h"
 
 int main() {
+  // Seed the random number generator once at startup so room shapes, door
+  // layouts, and enemy positions differ on every run.
+  srand(static_cast<unsigned int>(time(nullptr)));
+
   int maxX, maxY;
   // Initialize ncurses
   initscr();

@@ -1,6 +1,7 @@
 #ifndef HUD_LAYER_H
 #define HUD_LAYER_H
 
+#include "level.h"
 #include "player.h"
 #include "render_stack.h"
 
@@ -9,12 +10,13 @@ class HUDLayer : public RenderStack {
   /**
    * @brief Construct a new HUD Layer.
    *
-   * @param h Height of the layer window (in rows).
-   * @param w Width of the layer window in columns.
+   * @param h      Height of the layer window (in rows).
+   * @param w      Width of the layer window in columns.
    * @param player The player object to track stats, health, position, etc.
+   * @param level  The level to read the current room ID from.
    */
-  HUDLayer(int h, int w, const Player& player)
-      : RenderStack(h, w), player(player) {};
+  HUDLayer(int h, int w, const Player& player, const Level& level)
+      : RenderStack(h, w), player(player), level(level) {};
 
   /**
    * @brief Draw player health bar.
@@ -31,13 +33,20 @@ class HUDLayer : public RenderStack {
   void drawPlayerHealthBar(int offsetX = 0, int offsetY = 1);
 
   /**
-   * @brief Draw the HP indicator one row above the player's current position.
+   * @brief Draw the current room ID and total room count in the top-left
+   * corner of the screen.
+   */
+  void drawRoomID();
+
+  /**
+   * @brief Draw the HP indicator and room ID each frame.
    *
    */
   void doRender() override;
 
  private:
   const Player& player;
+  const Level& level;
 };
 
 #endif
