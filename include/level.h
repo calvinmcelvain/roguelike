@@ -68,8 +68,7 @@ class Level {
    *
    * @param activeEnemies Game's active enemy list to populate.
    */
-  void loadInitialEnemies(
-      std::vector<std::unique_ptr<Enemy>>& activeEnemies);
+  void loadInitialEnemies(std::vector<std::unique_ptr<Enemy>>& activeEnemies);
 
   /**
    * @brief Persist the current room's enemies and load the next room's.
@@ -83,9 +82,8 @@ class Level {
    * @param toRoomID      Room being entered.
    * @param activeEnemies Game's active enemy list to swap in-place.
    */
-  void transitionEnemies(
-      int fromRoomID, int toRoomID,
-      std::vector<std::unique_ptr<Enemy>>& activeEnemies);
+  void transitionEnemies(int fromRoomID, int toRoomID,
+                         std::vector<std::unique_ptr<Enemy>>& activeEnemies);
 
   /**
    * @brief Transition to a different room by ID.
@@ -105,10 +103,10 @@ class Level {
   std::map<int, Room> roomList;                   ///< All rooms keyed by ID.
   std::vector<std::vector<int>> roomConnections;  ///< Adjacency list.
   std::map<std::pair<int, Coordinate>, DoorConnection>
-      doorConnections;                            ///< (roomID, doorPos) → dest.
+      doorConnections;  ///< (roomID, doorPos) → dest.
   std::map<int, std::vector<std::unique_ptr<Enemy>>>
-      roomEnemies;                                ///< Per-room enemy lists.
-  std::map<int, bool> roomVisited;                ///< Lazy-init visit flags.
+      roomEnemies;                  ///< Per-room enemy lists.
+  std::map<int, bool> roomVisited;  ///< Lazy-init visit flags.
 
   /**
    * @brief Spawn fresh enemies for the given room and store them in

@@ -28,11 +28,11 @@ enum class RoomShape {
  * walls are tracked in doorPositions so Level can wire room connections.
  */
 struct Room {
-  static constexpr int WIDTH = 175;   ///< Tile columns per room.
-  static constexpr int HEIGHT = 50;   ///< Tile rows per room.
+  static constexpr int WIDTH = 175;  ///< Tile columns per room.
+  static constexpr int HEIGHT = 50;  ///< Tile rows per room.
 
-  int roomID;                              ///< Unique identifier for this room.
-  std::vector<std::vector<Tile>> tiles;    ///< Tile grid, indexed [x][y].
+  int roomID;                             ///< Unique identifier for this room.
+  std::vector<std::vector<Tile>> tiles;   ///< Tile grid, indexed [x][y].
   std::vector<Coordinate> doorPositions;  ///< Wall positions that are doors.
 
   /**
