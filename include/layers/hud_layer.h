@@ -15,8 +15,7 @@ class HUDLayer : public RenderStack {
    * @param player The player object to track stats, health, position, etc.
    * @param level  The level to read the current room ID from.
    */
-  HUDLayer(int h, int w, const Player& player, const Level& level)
-      : RenderStack(h, w), player(player), level(level) {};
+  HUDLayer(int h, int w, const Player& player, const Level& level);
 
   /**
    * @brief Draw player health bar.

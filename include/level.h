@@ -34,7 +34,7 @@ class Level {
    *
    * @param roomCount Number of rooms to generate.
    */
-  Level(int roomCount) : roomCount(roomCount) { generate(); }
+  Level(int roomCount);
 
   /**
    * @brief Add a room to the level.

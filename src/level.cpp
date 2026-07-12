@@ -5,6 +5,8 @@
 
 #include "tile.h"
 
+Level::Level(int roomCount) : roomCount(roomCount) { generate(); }
+
 void Level::addRoom(Room room) {
   int id = room.roomID;
   roomList.insert({id, std::move(room)});

@@ -21,10 +21,7 @@ class Enemy : public Entity {
    * rx = 20, ry = 10.
    */
   Enemy(int x, int y, char symbol = 'E', int health = 100, int speed = 10,
-        int attackDamage = 10, FOV attackFOV = ellipseFOV(20, 10))
-      : Entity(x, y, symbol, health, speed),
-        attackDamage(attackDamage),
-        attackFOV(attackFOV) {};
+        int attackDamage = 10, FOV attackFOV = ellipseFOV(20, 10));
 
   /**
    * @brief Get the enemy's attack damage.

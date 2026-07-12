@@ -3,7 +3,10 @@
 
 #include <cmath>
 #include <set>
+#include <utility>
 #include <vector>
+
+FOV::FOV(std::set<Coordinate> offsets) : offsets(std::move(offsets)) {}
 
 bool FOV::in(Coordinate origin, Coordinate position) const {
   Coordinate offset = origin - position;

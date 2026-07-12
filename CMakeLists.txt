@@ -12,6 +12,7 @@ find_package(Curses REQUIRED)
 set(SOURCES
     src/main.cpp
     src/game.cpp
+    src/entity.cpp
     src/player.cpp
     src/enemy.cpp
     src/level.cpp
@@ -19,6 +20,7 @@ set(SOURCES
     src/tile.cpp
     src/room.cpp
     src/renderer.cpp
+    src/render_stack.cpp
     src/logger.cpp
     src/layers/map_layer.cpp
     src/layers/entity_layer.cpp
