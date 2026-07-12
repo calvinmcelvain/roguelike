@@ -4,6 +4,10 @@
 
 #include <memory>
 
+EntityLayer::EntityLayer(int h, int w, const Player& player,
+                          const std::vector<std::unique_ptr<Enemy>>& enemies)
+    : RenderStack(h, w), player(player), enemies(enemies) {}
+
 void EntityLayer::drawEnemies() {
   // iterate through vector of enemies.
   for (const auto& enemy : enemies) {

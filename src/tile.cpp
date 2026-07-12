@@ -1,5 +1,8 @@
 #include "tile.h"
 
+Tile::Tile(TileType type, Coordinate position)
+    : type(type), position(position) {}
+
 // Define all tile types and their attributes in ONE place
 const std::unordered_map<int, TileAttributes> Tile::typeAttributes = {
     {static_cast<int>(TileType::Wall), {'#', false}},

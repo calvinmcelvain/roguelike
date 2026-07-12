@@ -14,8 +14,7 @@ class DebugLayer : public RenderStack {
    * @param currentFps Current frames-per-second game is rendering at.
    * @param player The player object.
    */
-  DebugLayer(int h, int w, const double& currentFps, const Player& player)
-      : RenderStack(h, w), currentFps(currentFps), player(player) {};
+  DebugLayer(int h, int w, const double& currentFps, const Player& player);
 
   /**
    * @brief Draw frame timing and player position at the bottom row.

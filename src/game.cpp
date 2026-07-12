@@ -9,6 +9,32 @@
 
 #include "enemy.h"
 
+Game::Game(int width, int height, int fps)
+    : screenWidth(width),
+      screenHeight(height),
+      fps(fps),
+      player(width / 2, height / 2),
+      level(5),
+      isRunning(true) {
+  // generate enemy objects first..
+  spawnEnemies();
+
+  // add window overlays.
+  // TODO: probably want to create an Enum for layer ordering.
+  renderer.addLayer(
+      1, std::make_unique<MapLayer>(screenHeight, screenWidth, level));
+  renderer.addLayer(2, std::make_unique<EntityLayer>(screenHeight, screenWidth,
+                                                     player, enemies));
+  renderer.addLayer(
+      3, std::make_unique<HUDLayer>(screenHeight, screenWidth, player, level));
+
+  // if debug build, add the debug window.
+#ifndef NDEBUG
+  renderer.addLayer(4, std::make_unique<DebugLayer>(screenHeight, screenWidth,
+                                                    currentFps, player));
+#endif
+}
+
 void Game::run() {
   printw("Roguelike Game Started! Use arrow keys to move. Press Q to quit.\n");
   printw("Press SPACE to begin...\n");

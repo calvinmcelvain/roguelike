@@ -4,6 +4,9 @@
 
 #include "room.h"
 
+MapLayer::MapLayer(int h, int w, const Level& level)
+    : RenderStack(h, w), level(level) {}
+
 void MapLayer::drawMap() {
   const Room& room = level.getCurrentRoom();
 

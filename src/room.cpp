@@ -13,6 +13,8 @@ void fillRect(Room& room, int x1, int y1, int x2, int y2) {
 
 }  // namespace
 
+Room::Room(int id) : roomID(id), tiles(WIDTH, std::vector<Tile>(HEIGHT)) {}
+
 Room Room::generate(int roomID, RoomShape shape) {
   Room room(roomID);
 

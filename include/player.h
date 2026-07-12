@@ -15,8 +15,7 @@ class Player : public Entity {
    * @param speed Frames per move. For example, speed = 2, means a player can
    * move per every 2 frames/renders. By default, equal to 1.
    */
-  Player(int x, int y, int health = 100, int speed = 1)
-      : Entity(x, y, '@', health, speed), maxHealth(health) {};
+  Player(int x, int y, int health = 100, int speed = 1);
 
   /**
    * @brief Get the initial max health of player.

@@ -40,7 +40,7 @@ struct Room {
    *
    * @param id Unique room identifier.
    */
-  Room(int id) : roomID(id), tiles(WIDTH, std::vector<Tile>(HEIGHT)) {}
+  Room(int id);
 
   /**
    * @brief Procedurally generate a Room with the given shape.

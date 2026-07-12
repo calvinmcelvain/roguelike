@@ -5,12 +5,7 @@
 
 class Entity {
  public:
-  Entity(int x, int y, char symbol, int health, int speed)
-      : position(x, y),
-        symbol(symbol),
-        health(health),
-        speed(speed),
-        frameCounter(0) {};
+  Entity(int x, int y, char symbol, int health, int speed);
 
   virtual ~Entity() = default;
 

@@ -2,6 +2,9 @@
 
 #include <ncurses.h>
 
+HUDLayer::HUDLayer(int h, int w, const Player& player, const Level& level)
+    : RenderStack(h, w), player(player), level(level) {}
+
 void HUDLayer::drawPlayerHealthBar(int offsetX, int offsetY) {
   // only draw if the position isn't ontop of player.
   // TODO: add a warning log if this is ever true?

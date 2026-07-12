@@ -6,6 +6,12 @@
 
 #include "coordinate.h"
 
+Enemy::Enemy(int x, int y, char symbol, int health, int speed, int attackDamage,
+             FOV attackFOV)
+    : Entity(x, y, symbol, health, speed),
+      attackDamage(attackDamage),
+      attackFOV(attackFOV) {}
+
 void Enemy::moveTowardPlayer(Coordinate playerPos) {
   // only move toward player if in FOV.
   if (attackFOV.in(position, playerPos)) {

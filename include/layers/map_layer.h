@@ -13,8 +13,7 @@ class MapLayer : public RenderStack {
    * @param w Width of the layer window (in columns).
    * @param level The level class whose current room will be drawn each frame.
    */
-  MapLayer(int h, int w, const Level& level)
-      : RenderStack(h, w), level(level) {};
+  MapLayer(int h, int w, const Level& level);
 
   /**
    * @brief Draw all room tiles into the map layer window.
