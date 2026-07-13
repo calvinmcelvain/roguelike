@@ -6,9 +6,9 @@ Tile::Tile(TileType type, Coordinate position)
 // Define all tile types and their attributes in ONE place
 const std::unordered_map<int, TileAttributes> Tile::typeAttributes = {
     {static_cast<int>(TileType::Wall), {'#', false}},
-    {static_cast<int>(TileType::Floor), {'.', true}},
+    {static_cast<int>(TileType::Floor), {' ', true}},
     {static_cast<int>(TileType::Door), {'+', true}},
-    {static_cast<int>(TileType::Void), {' ', false}},
+    {static_cast<int>(TileType::Void), {'.', false}},
 };
 
 char Tile::getSymbol() const {
