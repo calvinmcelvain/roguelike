@@ -15,8 +15,18 @@ void MapLayer::drawMap() {
       // get tile reference & print it.
       const Tile& tile = room.tiles[x][y];
 
-      mvwaddch(win, tile.getPosition().y, tile.getPosition().x,
-               tile.getSymbol());
+      // 3-state fog of war:
+      //   visible  -> normal render
+      //   explored -> dimmed render (terrain only; entities are handled
+      //               separately in EntityLayer)
+      //   unseen   -> skip so the cell stays blank/black
+      if (room.isVisible(x, y)) {
+        mvwaddch(win, tile.getPosition().y, tile.getPosition().x,
+                 tile.getSymbol());
+      } else if (room.isExplored(x, y)) {
+        mvwaddch(win, tile.getPosition().y, tile.getPosition().x,
+                 tile.getSymbol() | A_DIM);
+      }
     };
   };
 };

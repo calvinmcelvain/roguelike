@@ -4,18 +4,26 @@
 
 #include <memory>
 
-EntityLayer::EntityLayer(int h, int w, const Player& player,
-                          const std::vector<std::unique_ptr<Enemy>>& enemies)
-    : RenderStack(h, w), player(player), enemies(enemies) {}
+#include "room.h"
+
+EntityLayer::EntityLayer(int h, int w, const Level& level, const Player& player,
+                         const std::vector<std::unique_ptr<Enemy>>& enemies)
+    : RenderStack(h, w), level(level), player(player), enemies(enemies) {}
 
 void EntityLayer::drawEnemies() {
+  const Room& room = level.getCurrentRoom();
+
   // iterate through vector of enemies.
   for (const auto& enemy : enemies) {
-    // if alive, draw symbol.
+    // if alive AND inside the player's current FoV, draw symbol.
+    // Dynamic content (enemies) is never shown outside the FoV, even if
+    // the tile they stand on is "explored".
     if (enemy->isAlive()) {
       Coordinate pos = enemy->getPosition();
 
-      mvwaddch(win, pos.y, pos.x, enemy->getSymbol());
+      if (room.isVisible(pos.x, pos.y)) {
+        mvwaddch(win, pos.y, pos.x, enemy->getSymbol());
+      }
     };
     // TODO: if enemy dead, destroy the object & update the vector? lil
     // optimization??
@@ -23,7 +31,8 @@ void EntityLayer::drawEnemies() {
 };
 
 void EntityLayer::drawPlayer() {
-  // if alive, draw symbol.
+  // if alive, draw symbol. Player is always at their own FoV origin so
+  // no visibility check is needed here.
   if (player.isAlive()) {
     Coordinate pos = player.getPosition();
 

@@ -8,6 +8,7 @@
 
 #include "coordinate.h"
 #include "enemy.h"
+#include "fov.h"
 #include "room.h"
 
 /**
@@ -84,6 +85,19 @@ class Level {
    */
   void transitionEnemies(int fromRoomID, int toRoomID,
                          std::vector<std::unique_ptr<Enemy>>& activeEnemies);
+
+  /**
+   * @brief Recompute FoV visibility for the current room.
+   *
+   * Clears the current room's visible grid, then marks every tile inside
+   * @p fov (translated to @p origin) as both visible and explored. Called
+   * once per frame from Game::update() so a change to the player's sight
+   * radius takes effect on the next render.
+   *
+   * @param origin World position of the FoV origin (the player).
+   * @param fov Precomputed FoV mask defining which offsets are lit.
+   */
+  void updateVisibility(Coordinate origin, const FOV& fov);
 
   /**
    * @brief Transition to a different room by ID.

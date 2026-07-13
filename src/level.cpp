@@ -113,3 +113,15 @@ void Level::transitionEnemies(
   // Hand the destination room's enemies to the caller.
   activeEnemies = std::move(roomEnemies[toRoomID]);
 }
+
+void Level::updateVisibility(Coordinate origin, const FOV& fov) {
+  Room& room = roomList.at(currentRoomID);
+
+  // Wipe last frame's visibility, then light up the current FoV cells.
+  // reveal() is bounds-checked so out-of-room FoV offsets are safely
+  // ignored.
+  room.clearVisible();
+  for (const Coordinate& pos : fov.absoluteFOV(origin)) {
+    room.reveal(pos.x, pos.y);
+  }
+}

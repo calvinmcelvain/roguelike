@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "enemy.h"
+#include "level.h"
 #include "player.h"
 #include "render_stack.h"
 
@@ -19,14 +20,16 @@ class EntityLayer : public RenderStack {
    *
    * @param h Height of the layer window (in rows).
    * @param w Width of the layer window (in columns).
+   * @param level The level, used to query per-tile FoV visibility so
+   * entities outside the player's sight are not drawn.
    * @param player The player entity to draw each frame.
    * @param enemies The enemy list to draw each frame.
    */
-  EntityLayer(int h, int w, const Player& player,
+  EntityLayer(int h, int w, const Level& level, const Player& player,
               const std::vector<std::unique_ptr<Enemy>>& enemies);
 
   /**
-   * @brief Draw enemy entities.
+   * @brief Draw enemy entities that are inside the player's current FoV.
    *
    */
   void drawEnemies();
@@ -44,6 +47,7 @@ class EntityLayer : public RenderStack {
   void doRender() override;
 
  private:
+  const Level& level;
   const Player& player;
   const std::vector<std::unique_ptr<Enemy>>& enemies;
 };

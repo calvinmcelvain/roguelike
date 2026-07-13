@@ -24,7 +24,7 @@ Game::Game(int width, int height, int fps)
   renderer.addLayer(
       1, std::make_unique<MapLayer>(screenHeight, screenWidth, level));
   renderer.addLayer(2, std::make_unique<EntityLayer>(screenHeight, screenWidth,
-                                                     player, enemies));
+                                                     level, player, enemies));
   renderer.addLayer(
       3, std::make_unique<HUDLayer>(screenHeight, screenWidth, player, level));
 
@@ -123,6 +123,12 @@ void Game::handleInput() {
 }
 
 void Game::update() {
+  // Recompute FoV visibility for the current room before anything else
+  // runs this frame. Doing this first means enemy AI (future work) sees
+  // consistent visibility state, and the render pass immediately after
+  // reflects the player's latest position and sight radius.
+  level.updateVisibility(player.getPosition(), player.getFOV());
+
   // Move enemies toward player
   Coordinate playerPos = player.getPosition();
 
