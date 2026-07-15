@@ -5,12 +5,14 @@
 
 #include "game.h"
 
+#define WIDTH 175
+#define HEIGHT 50
+
 int main() {
   // Seed the random number generator once at startup so room shapes, door
   // layouts, and enemy positions differ on every run.
   srand(static_cast<unsigned int>(time(nullptr)));
 
-  int maxX, maxY;
   // Initialize ncurses
   initscr();
   cbreak();
@@ -24,8 +26,7 @@ int main() {
   curs_set(0);
 
   // get terminal size
-  getmaxyx(stdscr, maxY, maxX);
-  Game game(maxX, maxY);
+  Game game(WIDTH, HEIGHT);
   game.run();
 
   return 0;
