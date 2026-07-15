@@ -2,37 +2,32 @@
 
 #include <ncurses.h>
 
-HUDLayer::HUDLayer(int h, int w, const Player& player, const Level& level)
-    : RenderStack(h, w), player(player), level(level) {}
+#include <algorithm>
 
-void HUDLayer::drawPlayerHealthBar(int offsetX, int offsetY) {
-  // only draw if the position isn't ontop of player.
-  // TODO: add a warning log if this is ever true?
-  if (offsetX != 0 or offsetY != 0) {
-    // get the player's current position.
-    Coordinate pos = player.getPosition();
+#include "ui.h"
 
-    // get the absolute position to draw the health bar.
-    int barX = pos.x - offsetX;
-    int barY = pos.y - offsetY;
+HUDLayer::HUDLayer(int h, int w, int margin, const Player& player,
+                   const Level& level)
+    : RenderStack(h, w), player(player), level(level), margin(margin) {}
 
-    mvwprintw(win, barY, barX, "HP:%d/%d", player.getHealth(),
-              player.getMaxHealth());
-  };
+void HUDLayer::drawPlayerHealthBar(int row, int col) {
+  mvwprintw(win, row, col, "HP:%d/%d", player.getHealth(),
+            player.getMaxHealth());
 };
 
-void HUDLayer::drawRoomID() {
-  // Display "Room X/N" fixed at the top-left corner of the screen.
-  mvwprintw(win, 0, 0, "Room:%d/%d", level.getCurrentRoomID() + 1,
+void HUDLayer::drawRoomID(int row, int col) {
+  mvwprintw(win, row, col, "Room:%d/%d", level.getCurrentRoomID() + 1,
             level.getRoomCount());
 };
 
 void HUDLayer::doRender() {
   werase(win);  // need to erase each frame.
 
-  // draw player health bar.
-  this->drawPlayerHealthBar();
+  // fixed HUD band above the map's top border, with a blank gap row
+  // separating the HUD text from the border itself.
+  UI geom = computeUI(height, width);
+  int bandRow = std::max(0, geom.originY - margin);
 
-  // draw current room indicator.
-  this->drawRoomID();
+  this->drawRoomID(bandRow, geom.originX);
+  this->drawPlayerHealthBar(bandRow + 1, geom.originX);
 };

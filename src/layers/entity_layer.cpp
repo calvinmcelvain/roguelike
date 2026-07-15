@@ -4,9 +4,11 @@
 
 #include <memory>
 
-EntityLayer::EntityLayer(int h, int w, const Player& player,
-                          const std::vector<std::unique_ptr<Enemy>>& enemies)
-    : RenderStack(h, w), player(player), enemies(enemies) {}
+#include "ui.h"
+
+EntityLayer::EntityLayer(int h, int w, int y, int x, const Player& player,
+                         const std::vector<std::unique_ptr<Enemy>>& enemies)
+    : RenderStack(h, w, y, x), player(player), enemies(enemies) {}
 
 void EntityLayer::drawEnemies() {
   // iterate through vector of enemies.
@@ -37,4 +39,9 @@ void EntityLayer::doRender() {
   // render enemies first, then player (top of render).
   this->drawEnemies();
   this->drawPlayer();
+};
+
+void EntityLayer::onResize(int termHeight, int termWidth) {
+  UI g = computeUI(termHeight, termWidth);
+  reshape(g.winHeight, g.winWidth, g.originY, g.originX);
 };

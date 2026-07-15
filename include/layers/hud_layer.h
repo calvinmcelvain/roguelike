@@ -12,30 +12,29 @@ class HUDLayer : public RenderStack {
    *
    * @param h      Height of the layer window (in rows).
    * @param w      Width of the layer window in columns.
+   * @param margin The margin between HUD & map layer.
    * @param player The player object to track stats, health, position, etc.
    * @param level  The level to read the current room ID from.
    */
-  HUDLayer(int h, int w, const Player& player, const Level& level);
+  HUDLayer(int h, int w, const int margin, const Player& player,
+           const Level& level);
 
   /**
-   * @brief Draw player health bar.
+   * @brief Draw player health bar at a fixed screen position.
    *
-   * Defaults to being drawn directly above player position.
-   *
-   * @param offsetX The offset x (column) position (relative to player) to draw
-   * health bar. Positive offsets shift bar left, negative offsets shift bar
-   * right. By default, 0.
-   * @param offsetY The offset y (row) position (relative to player) to draw
-   * health bar. Positive offsets shift bar up, negative offsets shift bar
-   * down. By default, 1.
+   * @param row Absolute row to draw the health bar at.
+   * @param col Absolute column to draw the health bar at.
    */
-  void drawPlayerHealthBar(int offsetX = 0, int offsetY = 1);
+  void drawPlayerHealthBar(int row, int col);
 
   /**
-   * @brief Draw the current room ID and total room count in the top-left
-   * corner of the screen.
+   * @brief Draw the current room ID and total room count at a fixed screen
+   * position.
+   *
+   * @param row Absolute row to draw the room indicator at.
+   * @param col Absolute column to draw the room indicator at.
    */
-  void drawRoomID();
+  void drawRoomID(int row, int col);
 
   /**
    * @brief Draw the HP indicator and room ID each frame.
@@ -46,6 +45,7 @@ class HUDLayer : public RenderStack {
  private:
   const Player& player;
   const Level& level;
+  const int margin;
 };
 
 #endif

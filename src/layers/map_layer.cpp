@@ -3,9 +3,10 @@
 #include <ncurses.h>
 
 #include "room.h"
+#include "ui.h"
 
-MapLayer::MapLayer(int h, int w, const Level& level)
-    : RenderStack(h, w), level(level) {}
+MapLayer::MapLayer(int h, int w, int y, int x, const Level& level)
+    : RenderStack(h, w, y, x), level(level) {}
 
 void MapLayer::drawMap() {
   const Room& room = level.getCurrentRoom();
@@ -29,4 +30,9 @@ void MapLayer::doRender() {
 
   // draw map.
   this->drawMap();
+};
+
+void MapLayer::onResize(int termHeight, int termWidth) {
+  UI g = computeUI(termHeight, termWidth);
+  reshape(g.winHeight, g.winWidth, g.originY, g.originX);
 };
