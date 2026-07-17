@@ -21,15 +21,12 @@ class Game {
   /**
    * @brief Construct a new Game:: Game object.
    *
-   * @param width width of the game screen. By default, 175.
-   * @param height height of the game screen. By default, 50.
+   * @param width Current terminal width (columns).
+   * @param height Current terminal height (rows).
    * @param fps frames per second of game. By default, 60.
    *
-   * Initializes the player in the center of the screen, generates the level,
-   * spawns enemies, and builds the render layer stack.
-   *
    */
-  Game(int width = 175, int height = 50, int fps = 60);
+  Game(int width, int height, int fps = 60);
 
   /**
    * @brief Runs the main game loop.
@@ -40,7 +37,7 @@ class Game {
   void run();
 
  private:
-  const int screenWidth, screenHeight;
+  int termWidth, termHeight;
   const int fps;
   double currentFps;
   Player player;

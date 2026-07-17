@@ -4,12 +4,13 @@
 
 #include <memory>
 
-#include "colors.h"
+#include "../colors.h"
 #include "room.h"
+#include "ui.h"
 
-EntityLayer::EntityLayer(int h, int w, const Level& level, const Player& player,
+EntityLayer::EntityLayer(int h, int w, int y, int x, const Level& level, const Player& player,
                          const std::vector<std::unique_ptr<Enemy>>& enemies)
-    : RenderStack(h, w), level(level), player(player), enemies(enemies) {}
+    : RenderStack(h, w, y, x), level(level), player(player), enemies(enemies) {}
 
 void EntityLayer::drawEnemies() {
   const Room& room = level.getCurrentRoom();
@@ -49,4 +50,9 @@ void EntityLayer::doRender() {
   // render enemies first, then player (top of render).
   this->drawEnemies();
   this->drawPlayer();
+};
+
+void EntityLayer::onResize(int termHeight, int termWidth) {
+  UI g = computeUI(termHeight, termWidth);
+  reshape(g.winHeight, g.winWidth, g.originY, g.originX);
 };

@@ -8,12 +8,13 @@
 #include <thread>
 
 #include "enemy.h"
+#include "ui.h"
 
 Game::Game(int width, int height, int fps)
-    : screenWidth(width),
-      screenHeight(height),
+    : termWidth(width),
+      termHeight(height),
       fps(fps),
-      player(width / 2, height / 2),
+      player(Room::WIDTH / 2, Room::HEIGHT / 2),
       level(5),
       isRunning(true) {
   // generate enemy objects first..
@@ -21,16 +22,21 @@ Game::Game(int width, int height, int fps)
 
   // add window overlays.
   // TODO: probably want to create an Enum for layer ordering.
+  UI geom = computeUI(termHeight, termWidth);
   renderer.addLayer(
-      1, std::make_unique<MapLayer>(screenHeight, screenWidth, level));
-  renderer.addLayer(2, std::make_unique<EntityLayer>(screenHeight, screenWidth,
-                                                     level, player, enemies));
-  renderer.addLayer(
-      3, std::make_unique<HUDLayer>(screenHeight, screenWidth, player, level));
+      1, std::make_unique<MapLayer>(geom.winHeight, geom.winWidth, geom.originY,
+                                    geom.originX, level));
+  renderer.addLayer(2, std::make_unique<EntityLayer>(
+                           geom.winHeight, geom.winWidth, geom.originY,
+                           geom.originX, player, enemies));
+
+  const int hud_margin = 5;
+  renderer.addLayer(3, std::make_unique<HUDLayer>(termHeight, termWidth,
+                                                  hud_margin, player, level));
 
   // if debug build, add the debug window.
 #ifndef NDEBUG
-  renderer.addLayer(4, std::make_unique<DebugLayer>(screenHeight, screenWidth,
+  renderer.addLayer(4, std::make_unique<DebugLayer>(termHeight, termWidth,
                                                     currentFps, player));
 #endif
 }
@@ -78,6 +84,10 @@ void Game::handleInput() {
   Coordinate newPlayerPos = player.getPosition();
 
   switch (ch) {
+    case KEY_RESIZE:  // in case of a terminal resize.
+      getmaxyx(stdscr, termHeight, termWidth);
+      renderer.resizeAll(termHeight, termWidth);
+      return;
     case KEY_UP:
     case 'w':  // Up
       newPlayerPos.y -= 1;

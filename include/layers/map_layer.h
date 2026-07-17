@@ -11,9 +11,11 @@ class MapLayer : public RenderStack {
    *
    * @param h Height of the layer window (in rows).
    * @param w Width of the layer window (in columns).
+   * @param y Row of the window's top-left corner in the terminal.
+   * @param x Column of the window's top-left corner in the terminal.
    * @param level The level class whose current room will be drawn each frame.
    */
-  MapLayer(int h, int w, const Level& level);
+  MapLayer(int h, int w, int y, int x, const Level& level);
 
   /**
    * @brief Draw all room tiles into the map layer window.
@@ -26,6 +28,14 @@ class MapLayer : public RenderStack {
    *
    */
   void doRender() override;
+
+  /**
+   * @brief Recompute the centered, terminal-clamped map window geometry.
+   *
+   * @param termHeight New terminal height (rows).
+   * @param termWidth New terminal width (columns).
+   */
+  void onResize(int termHeight, int termWidth) override;
 
  private:
   const Level& level;
