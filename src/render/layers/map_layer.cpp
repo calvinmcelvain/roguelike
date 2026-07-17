@@ -4,6 +4,7 @@
 
 #include "world/room.h"
 #include "render/ui.h"
+#include "core/colors.h"
 
 MapLayer::MapLayer(int h, int w, int y, int x, const Level& level)
     : RenderStack(h, w, y, x), level(level) {}

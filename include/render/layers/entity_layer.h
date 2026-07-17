@@ -7,6 +7,7 @@
 #include "entities/enemy.h"
 #include "entities/player.h"
 #include "render/render_stack.h"
+#include "world/level.h"
 
 class EntityLayer : public RenderStack {
  public:

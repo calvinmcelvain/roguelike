@@ -1,4 +1,5 @@
 #include "render/layers/entity_layer.h"
+#include "world/level.h"
 
 #include <ncurses.h>
 

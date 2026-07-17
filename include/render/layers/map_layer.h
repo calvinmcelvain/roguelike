@@ -3,6 +3,7 @@
 
 #include "world/level.h"
 #include "render/render_stack.h"
+#include "core/colors.h"
 
 class MapLayer : public RenderStack {
  public:

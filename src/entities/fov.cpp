@@ -1,6 +1,7 @@
 
 #include "entities/fov.h"
 
+
 #include <cmath>
 #include <set>
 #include <utility>
