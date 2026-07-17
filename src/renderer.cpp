@@ -23,3 +23,9 @@ void Renderer::compose() {
   // flush to terminal.
   refresh();
 };
+
+void Renderer::resizeAll(int termHeight, int termWidth) {
+  for (auto& [z, layer] : layers) {
+    layer->onResize(termHeight, termWidth);
+  };
+};

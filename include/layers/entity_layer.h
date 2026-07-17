@@ -19,10 +19,12 @@ class EntityLayer : public RenderStack {
    *
    * @param h Height of the layer window (in rows).
    * @param w Width of the layer window (in columns).
+   * @param y Row of the window's top-left corner in the terminal.
+   * @param x Column of the window's top-left corner in the terminal.
    * @param player The player entity to draw each frame.
    * @param enemies The enemy list to draw each frame.
    */
-  EntityLayer(int h, int w, const Player& player,
+  EntityLayer(int h, int w, int y, int x, const Player& player,
               const std::vector<std::unique_ptr<Enemy>>& enemies);
 
   /**
@@ -42,6 +44,14 @@ class EntityLayer : public RenderStack {
    *
    */
   void doRender() override;
+
+  /**
+   * @brief Recompute the centered, terminal-clamped map window geometry.
+   *
+   * @param termHeight New terminal height (rows).
+   * @param termWidth New terminal width (columns).
+   */
+  void onResize(int termHeight, int termWidth) override;
 
  private:
   const Player& player;

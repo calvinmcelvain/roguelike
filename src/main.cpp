@@ -10,7 +10,6 @@ int main() {
   // layouts, and enemy positions differ on every run.
   srand(static_cast<unsigned int>(time(nullptr)));
 
-  int maxX, maxY;
   // Initialize ncurses
   initscr();
   cbreak();
@@ -24,8 +23,11 @@ int main() {
   curs_set(0);
 
   // get terminal size
-  getmaxyx(stdscr, maxY, maxX);
-  Game game(maxX, maxY);
+  int termHeight, termWidth;
+  getmaxyx(stdscr, termHeight, termWidth);
+
+  // start game.
+  Game game(termWidth, termHeight);
   game.run();
 
   return 0;
