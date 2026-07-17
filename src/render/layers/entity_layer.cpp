@@ -17,8 +17,7 @@ void EntityLayer::drawEnemies() {
   // iterate through vector of enemies.
   for (const auto& enemy : enemies) {
     // if alive AND inside the player's current FoV, draw symbol.
-    // Dynamic content (enemies) is never shown outside the FoV, even if
-    // the tile they stand on is "explored".
+    // Dynamic content (enemies) is never shown outside the FoV
     if (enemy->isAlive()) {
       Coordinate pos = enemy->getPosition();
 

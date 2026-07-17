@@ -134,9 +134,7 @@ void Game::handleInput() {
 
 void Game::update() {
   // Recompute FoV visibility for the current room before anything else
-  // runs this frame. Doing this first means enemy AI (future work) sees
-  // consistent visibility state, and the render pass immediately after
-  // reflects the player's latest position and sight radius.
+  // runs this frame.
   level.updateVisibility(player.getPosition(), player.getFOV());
 
   // Move enemies toward player

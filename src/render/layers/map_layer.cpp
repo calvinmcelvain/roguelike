@@ -22,13 +22,9 @@ void MapLayer::drawMap() {
       // 3-state fog of war:
       //   visible   -> normal render (terminal default colours).
       //   explored  -> light grey glyph on grey background for non-blank
-      //                tile symbols (walls, doors). Blank symbols (floor)
-      //                are substituted with a solid grey block because
-      //                ncurses overlay() drops blank cells — writing ' '
-      //                with a coloured bg would still be treated as
-      //                transparent and let the black stdscr show through.
+      //                tile symbols (walls, doors, floor).
       //                Result: the whole explored area reads as a uniform
-      //                grey shade with walls/doors picked out on top.
+      //                grey shade with walls/doors/floor picked out on top.
       //   unseen    -> solid dark grey block so the room shape stays
       //                hidden until first sighting.
       //
@@ -38,12 +34,7 @@ void MapLayer::drawMap() {
         mvwaddch(win, ty, tx, tile.getSymbol());
       } else if (room.isExplored(x, y)) {
         const char sym = tile.getSymbol();
-        if (sym == ' ') {
-          // Blank glyph -> solid grey (fg == bg) so the shading persists.
-          mvwaddch(win, ty, tx, '.' | colorAttr(ColorPair::FogUnexplored));
-        } else {
-          mvwaddch(win, ty, tx, sym | colorAttr(ColorPair::FogExplored));
-        }
+        mvwaddch(win, ty, tx, sym | colorAttr(ColorPair::FogExplored));
       } else {
         // Fog block: ncurses overlay() drops blanks, so we must draw a
         // non-blank glyph. Because the pair has fg == bg, whatever glyph

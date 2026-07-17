@@ -7,8 +7,7 @@
  * @brief Named ncurses colour-pair identifiers used across render layers.
  *
  * Pair 0 is reserved by ncurses for the terminal default and cannot be
- * overridden. All other pairs are initialised in initColors(). New pairs
- * should be added here so callers reference names, not raw integers.
+ * overridden. All other pairs are initialised in initColors().
  */
 enum class ColorPair : short {
   Default = 0,        ///< Terminal default (used inside the FoV).
@@ -37,7 +36,7 @@ inline chtype colorAttr(ColorPair p) {
  * @brief Initialise ncurses colour support and register all named pairs.
  *
  * Must be called after initscr() and before any window draws. On terminals
- * that do not support colour the call is a no-op — every layer will fall
+ * that do not support color the call is a no-op — every layer will fall
  * back to attribute-only rendering.
  */
 void initColors();

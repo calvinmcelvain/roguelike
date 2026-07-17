@@ -5,12 +5,11 @@
 namespace {
 
 // Extended 16-colour palette index 8 is "bright black" — dark grey on
-// essentially every modern terminal. Kept as a named constant so the
-// intent is obvious at the pair-registration sites below.
+// essentially every modern terminal. 
 constexpr short kGreyDark = 8;
 
 // Small helper so pair registration reads naturally with the enum-class
-// values rather than static_cast noise at every call site.
+// values
 void registerPair(ColorPair id, short fg, short bg) {
   init_pair(static_cast<short>(id), fg, bg);
 }
@@ -29,12 +28,7 @@ void initColors() {
 
   // Explored-but-not-visible: same grey background as FogUnexplored so
   // the "shadow" of previously seen area stays visible after the FoV
-  // moves off it. Only the fg differs — MapLayer draws the tile's normal
-  // glyph in light grey (COLOR_WHITE) on top of the grey shade, so walls
-  // and floors remain readable while the area is clearly out-of-sight.
+  // moves off it. 
   registerPair(ColorPair::FogExplored, COLOR_WHITE, kGreyDark);
 
-  // ColorPair::EnemyDefault and ColorPair::DoorDefault are reserved but
-  // intentionally not registered yet — future work will choose their
-  // fg/bg and add the corresponding registerPair() calls here.
 }

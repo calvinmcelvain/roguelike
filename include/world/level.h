@@ -89,7 +89,7 @@ class Level {
    * @brief Recompute FoV visibility for the current room.
    *
    * Clears the current room's visible grid, then marks every tile inside
-   * @p fov (translated to @p origin) as both visible and explored. Called
+   * player FoV as both visible and explored. Called
    * once per frame from Game::update() so a change to the player's sight
    * radius takes effect on the next render.
    *
