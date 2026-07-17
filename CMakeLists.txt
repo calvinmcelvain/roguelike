@@ -11,22 +11,21 @@ find_package(Curses REQUIRED)
 # Source files.
 set(SOURCES
     src/main.cpp
-    src/game.cpp
-    src/entity.cpp
-    src/player.cpp
-    src/enemy.cpp
-    src/level.cpp
-    src/fov.cpp
-    src/tile.cpp
-    src/room.cpp
-    src/renderer.cpp
-    src/render_stack.cpp
-    src/logger.cpp
-    src/colors.cpp
-    src/layers/map_layer.cpp
-    src/layers/entity_layer.cpp
-    src/layers/hud_layer.cpp
-    src/layers/debug_layer.cpp
+    src/core/game.cpp
+    src/core/logger.cpp
+    src/entities/entity.cpp
+    src/entities/player.cpp
+    src/entities/enemy.cpp
+    src/entities/fov.cpp
+    src/world/level.cpp
+    src/world/tile.cpp
+    src/world/room.cpp
+    src/render/renderer.cpp
+    src/render/render_stack.cpp
+    src/render/layers/map_layer.cpp
+    src/render/layers/entity_layer.cpp
+    src/render/layers/hud_layer.cpp
+    src/render/layers/debug_layer.cpp
 )
 
 # Create executable.

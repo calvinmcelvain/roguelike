@@ -3,8 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "colors.h"
-#include "game.h"
+#include "core/game.h"
 
 int main() {
   // Seed the random number generator once at startup so room shapes, door
