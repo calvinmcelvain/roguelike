@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 
+#include "colors.h"
 #include "game.h"
 
 int main() {
@@ -13,6 +14,7 @@ int main() {
   int maxX, maxY;
   // Initialize ncurses
   initscr();
+  initColors();
   cbreak();
   noecho();
   nodelay(stdscr, TRUE);

@@ -22,6 +22,7 @@ set(SOURCES
     src/renderer.cpp
     src/render_stack.cpp
     src/logger.cpp
+    src/colors.cpp
     src/layers/map_layer.cpp
     src/layers/entity_layer.cpp
     src/layers/hud_layer.cpp

@@ -15,12 +15,12 @@ class Player : public Entity {
    * @param health Starting health of player.
    * @param speed Frames per move. For example, speed = 2, means a player can
    * move per every 2 frames/renders. By default, equal to 1.
-   * @param sightRx Horizontal FoV radius (columns). By default, 8.
-   * @param sightRy Vertical FoV radius (rows). By default, 5. Vertical is
+   * @param sightRx Horizontal FoV radius (columns). By default, 16.
+   * @param sightRy Vertical FoV radius (rows). By default, 10. Vertical is
    * smaller because a row of terminal cells is taller than a column is wide.
    */
-  Player(int x, int y, int health = 100, int speed = 1, int sightRx = 8,
-         int sightRy = 5);
+  Player(int x, int y, int health = 100, int speed = 1, int sightRx = 16,
+         int sightRy = 10);
 
   /**
    * @brief Get the initial max health of player.

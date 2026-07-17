@@ -2,6 +2,7 @@
 
 #include <ncurses.h>
 
+#include "colors.h"
 #include "room.h"
 
 MapLayer::MapLayer(int h, int w, const Level& level)
@@ -14,18 +15,40 @@ void MapLayer::drawMap() {
     for (int y = 0; y < Room::HEIGHT; ++y) {
       // get tile reference & print it.
       const Tile& tile = room.tiles[x][y];
+      const int tx = tile.getPosition().x;
+      const int ty = tile.getPosition().y;
 
       // 3-state fog of war:
-      //   visible  -> normal render
-      //   explored -> dimmed render (terrain only; entities are handled
-      //               separately in EntityLayer)
-      //   unseen   -> skip so the cell stays blank/black
+      //   visible   -> normal render (terminal default colours).
+      //   explored  -> light grey glyph on grey background for non-blank
+      //                tile symbols (walls, doors). Blank symbols (floor)
+      //                are substituted with a solid grey block because
+      //                ncurses overlay() drops blank cells — writing ' '
+      //                with a coloured bg would still be treated as
+      //                transparent and let the black stdscr show through.
+      //                Result: the whole explored area reads as a uniform
+      //                grey shade with walls/doors picked out on top.
+      //   unseen    -> solid dark grey block so the room shape stays
+      //                hidden until first sighting.
+      //
+      // Hook: door tiles could branch here on tile.getType() == Door and
+      // OR in colorAttr(ColorPair::DoorDefault) once the pair is defined.
       if (room.isVisible(x, y)) {
-        mvwaddch(win, tile.getPosition().y, tile.getPosition().x,
-                 tile.getSymbol());
+        mvwaddch(win, ty, tx, tile.getSymbol());
       } else if (room.isExplored(x, y)) {
-        mvwaddch(win, tile.getPosition().y, tile.getPosition().x,
-                 tile.getSymbol() | A_DIM);
+        const char sym = tile.getSymbol();
+        if (sym == ' ') {
+          // Blank glyph -> solid grey (fg == bg) so the shading persists.
+          mvwaddch(win, ty, tx, '.' | colorAttr(ColorPair::FogUnexplored));
+        } else {
+          mvwaddch(win, ty, tx, sym | colorAttr(ColorPair::FogExplored));
+        }
+      } else {
+        // Fog block: ncurses overlay() drops blanks, so we must draw a
+        // non-blank glyph. Because the pair has fg == bg, whatever glyph
+        // we pick is invisible against its own background and only the
+        // solid grey cell shows through. '.' is arbitrary.
+        mvwaddch(win, ty, tx, '.' | colorAttr(ColorPair::FogUnexplored));
       }
     };
   };

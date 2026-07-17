@@ -4,6 +4,7 @@
 
 #include <memory>
 
+#include "colors.h"
 #include "room.h"
 
 EntityLayer::EntityLayer(int h, int w, const Level& level, const Player& player,
@@ -22,6 +23,8 @@ void EntityLayer::drawEnemies() {
       Coordinate pos = enemy->getPosition();
 
       if (room.isVisible(pos.x, pos.y)) {
+        // Hook: OR in colorAttr(ColorPair::EnemyDefault) — or a
+        // per-enemy-type pair — once enemy colouring is designed.
         mvwaddch(win, pos.y, pos.x, enemy->getSymbol());
       }
     };
