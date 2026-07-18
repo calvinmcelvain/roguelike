@@ -1,8 +1,9 @@
 #ifndef MAP_LAYER_H
 #define MAP_LAYER_H
 
-#include "world/level.h"
+#include "core/colors.h"
 #include "render/render_stack.h"
+#include "world/level.h"
 
 class MapLayer : public RenderStack {
  public:

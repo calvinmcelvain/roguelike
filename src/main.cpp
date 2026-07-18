@@ -12,6 +12,7 @@ int main() {
 
   // Initialize ncurses
   initscr();
+  initColors();
   cbreak();
   noecho();
   nodelay(stdscr, TRUE);

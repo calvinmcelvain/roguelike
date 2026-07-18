@@ -1,5 +1,7 @@
 #include "world/room.h"
 
+#include <algorithm>
+
 // Have to create this namespace to keep the helper function private to this
 // file, since it's only used in Room::generate().
 namespace {
@@ -13,7 +15,34 @@ void fillRect(Room& room, int x1, int y1, int x2, int y2) {
 
 }  // namespace
 
-Room::Room(int id) : roomID(id), tiles(WIDTH, std::vector<Tile>(HEIGHT)) {}
+Room::Room(int id)
+    : roomID(id),
+      tiles(WIDTH, std::vector<Tile>(HEIGHT)),
+      visible(WIDTH, std::vector<bool>(HEIGHT, false)),
+      explored(WIDTH, std::vector<bool>(HEIGHT, false)) {}
+
+void Room::clearVisible() {
+  for (auto& col : visible) {
+    std::fill(col.begin(), col.end(), false);
+  }
+}
+
+bool Room::isVisible(int x, int y) const {
+  if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return false;
+  return visible[x][y];
+}
+
+bool Room::isExplored(int x, int y) const {
+  if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return false;
+  return explored[x][y];
+}
+
+void Room::reveal(int x, int y) {
+  if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return;
+  visible[x][y] = true;
+  // Only mark explored if the tile is not Void.
+  if (tiles[x][y].getType() != TileType::Void) explored[x][y] = true;
+}
 
 Room Room::generate(int roomID, RoomShape shape) {
   Room room(roomID);

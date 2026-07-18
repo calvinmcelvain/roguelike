@@ -1,9 +1,9 @@
 #ifndef HUD_LAYER_H
 #define HUD_LAYER_H
 
-#include "world/level.h"
 #include "entities/player.h"
 #include "render/render_stack.h"
+#include "world/level.h"
 
 class HUDLayer : public RenderStack {
  public:

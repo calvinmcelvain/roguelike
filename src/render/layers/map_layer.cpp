@@ -2,8 +2,9 @@
 
 #include <ncurses.h>
 
-#include "world/room.h"
+#include "core/colors.h"
 #include "render/ui.h"
+#include "world/room.h"
 
 MapLayer::MapLayer(int h, int w, int y, int x, const Level& level)
     : RenderStack(h, w, y, x), level(level) {}
@@ -15,9 +16,32 @@ void MapLayer::drawMap() {
     for (int y = 0; y < Room::HEIGHT; ++y) {
       // get tile reference & print it.
       const Tile& tile = room.tiles[x][y];
+      const int tx = tile.getPosition().x;
+      const int ty = tile.getPosition().y;
 
-      mvwaddch(win, tile.getPosition().y, tile.getPosition().x,
-               tile.getSymbol());
+      // 3-state fog of war:
+      //   visible   -> normal render (terminal default colours).
+      //   explored  -> light grey glyph on grey background for non-blank
+      //                tile symbols (walls, doors, floor).
+      //                Result: the whole explored area reads as a uniform
+      //                grey shade with walls/doors/floor picked out on top.
+      //   unseen    -> solid dark grey block so the room shape stays
+      //                hidden until first sighting.
+      //
+      // Hook: door tiles could branch here on tile.getType() == Door and
+      // OR in colorAttr(ColorPair::DoorDefault) once the pair is defined.
+      if (room.isVisible(x, y)) {
+        mvwaddch(win, ty, tx, tile.getSymbol());
+      } else if (room.isExplored(x, y)) {
+        const char sym = tile.getSymbol();
+        mvwaddch(win, ty, tx, sym | colorAttr(ColorPair::FogExplored));
+      } else {
+        // Fog block: ncurses overlay() drops blanks, so we must draw a
+        // non-blank glyph. Because the pair has fg == bg, whatever glyph
+        // we pick is invisible against its own background and only the
+        // solid grey cell shows through. '.' is arbitrary.
+        mvwaddch(win, ty, tx, '.' | colorAttr(ColorPair::FogUnexplored));
+      }
     };
   };
 };

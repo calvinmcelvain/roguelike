@@ -6,13 +6,13 @@
 #include <vector>
 
 #include "entities/enemy.h"
+#include "entities/player.h"
 #include "render/layers/debug_layer.h"
 #include "render/layers/entity_layer.h"
 #include "render/layers/hud_layer.h"
 #include "render/layers/map_layer.h"
-#include "world/level.h"
-#include "entities/player.h"
 #include "render/renderer.h"
+#include "world/level.h"
 
 class Enemy;
 

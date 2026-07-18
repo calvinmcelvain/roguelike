@@ -28,7 +28,7 @@ Game::Game(int width, int height, int fps)
                                     geom.originX, level));
   renderer.addLayer(2, std::make_unique<EntityLayer>(
                            geom.winHeight, geom.winWidth, geom.originY,
-                           geom.originX, player, enemies));
+                           geom.originX, level, player, enemies));
 
   const int hud_margin = 5;
   renderer.addLayer(3, std::make_unique<HUDLayer>(termHeight, termWidth,
@@ -133,6 +133,10 @@ void Game::handleInput() {
 }
 
 void Game::update() {
+  // Recompute FoV visibility for the current room before anything else
+  // runs this frame.
+  level.updateVisibility(player.getPosition(), player.getFOV());
+
   // Move enemies toward player
   Coordinate playerPos = player.getPosition();
 

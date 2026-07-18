@@ -35,6 +35,14 @@ struct Room {
   std::vector<std::vector<Tile>> tiles;   ///< Tile grid, indexed [x][y].
   std::vector<Coordinate> doorPositions;  ///< Wall positions that are doors.
 
+  /// True when the tile is inside the player's current FoV. Recomputed each
+  /// frame by Level::updateVisibility. Indexed [x][y].
+  std::vector<std::vector<bool>> visible;
+
+  /// True once the tile has ever been visible. Persists across frames and
+  /// room re-entries so the map is "remembered" once seen. Indexed [x][y].
+  std::vector<std::vector<bool>> explored;
+
   /**
    * @brief Construct an empty Room filled with default Wall tiles.
    *
@@ -53,6 +61,45 @@ struct Room {
    * @return A fully populated Room ready to be added to a Level.
    */
   static Room generate(int roomID, RoomShape shape);
+
+  /**
+   * @brief Reset every cell in the visible grid to false.
+   *
+   * Called at the start of each visibility pass before the new FoV cells
+   * are marked visible. The explored grid is left untouched.
+   */
+  void clearVisible();
+
+  /**
+   * @brief Bounds-checked visibility query.
+   *
+   * @param x Column.
+   * @param y Row.
+   * @return bool True if the tile is inside the current FoV. False if out
+   * of bounds.
+   */
+  bool isVisible(int x, int y) const;
+
+  /**
+   * @brief Bounds-checked explored query.
+   *
+   * @param x Column.
+   * @param y Row.
+   * @return bool True if the tile has been seen at least once. False if
+   * out of bounds.
+   */
+  bool isExplored(int x, int y) const;
+
+  /**
+   * @brief Mark a tile as currently visible and permanently explored.
+   *
+   * No-op if (x, y) falls outside the room grid so callers may pass raw
+   * FoV coordinates without clamping first.
+   *
+   * @param x Column.
+   * @param y Row.
+   */
+  void reveal(int x, int y);
 
   Room(Room&&) = default;
   Room& operator=(Room&&) = default;

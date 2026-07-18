@@ -11,6 +11,7 @@ find_package(Curses REQUIRED)
 # Source files.
 set(SOURCES
     src/main.cpp
+    src/core/colors.cpp
     src/core/game.cpp
     src/core/logger.cpp
     src/entities/entity.cpp

@@ -5,19 +5,28 @@
 #include <memory>
 
 #include "render/ui.h"
+#include "world/level.h"
 
-EntityLayer::EntityLayer(int h, int w, int y, int x, const Player& player,
+EntityLayer::EntityLayer(int h, int w, int y, int x, const Level& level,
+                         const Player& player,
                          const std::vector<std::unique_ptr<Enemy>>& enemies)
-    : RenderStack(h, w, y, x), player(player), enemies(enemies) {}
+    : RenderStack(h, w, y, x), level(level), player(player), enemies(enemies) {}
 
 void EntityLayer::drawEnemies() {
+  const Room& room = level.getCurrentRoom();
+
   // iterate through vector of enemies.
   for (const auto& enemy : enemies) {
-    // if alive, draw symbol.
+    // if alive AND inside the player's current FoV, draw symbol.
+    // Dynamic content (enemies) is never shown outside the FoV
     if (enemy->isAlive()) {
       Coordinate pos = enemy->getPosition();
 
-      mvwaddch(win, pos.y, pos.x, enemy->getSymbol());
+      if (room.isVisible(pos.x, pos.y)) {
+        // Hook: OR in colorAttr(ColorPair::EnemyDefault) — or a
+        // per-enemy-type pair — once enemy colouring is designed.
+        mvwaddch(win, pos.y, pos.x, enemy->getSymbol());
+      }
     };
     // TODO: if enemy dead, destroy the object & update the vector? lil
     // optimization??
@@ -25,7 +34,8 @@ void EntityLayer::drawEnemies() {
 };
 
 void EntityLayer::drawPlayer() {
-  // if alive, draw symbol.
+  // if alive, draw symbol. Player is always at their own FoV origin so
+  // no visibility check is needed here.
   if (player.isAlive()) {
     Coordinate pos = player.getPosition();
 
