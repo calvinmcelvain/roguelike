@@ -1,13 +1,14 @@
 #include "render/layers/entity_layer.h"
-#include "world/level.h"
 
 #include <ncurses.h>
 
 #include <memory>
 
 #include "render/ui.h"
+#include "world/level.h"
 
-EntityLayer::EntityLayer(int h, int w, int y, int x, const Level& level, const Player& player,
+EntityLayer::EntityLayer(int h, int w, int y, int x, const Level& level,
+                         const Player& player,
                          const std::vector<std::unique_ptr<Enemy>>& enemies)
     : RenderStack(h, w, y, x), level(level), player(player), enemies(enemies) {}
 

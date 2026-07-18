@@ -1,11 +1,12 @@
 
 #include "world/fov.h"
-#include "core/coordinate.h"
 
 #include <cmath>
 #include <set>
 #include <utility>
 #include <vector>
+
+#include "core/coordinate.h"
 
 FOV::FOV(std::set<Coordinate> offsets) : offsets(std::move(offsets)) {}
 

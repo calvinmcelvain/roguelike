@@ -19,7 +19,8 @@ class Player : public Entity {
    * @param sightRy Vertical FoV radius (rows). By default, 10. Vertical is
    * smaller because a row of terminal cells is taller than a column is wide.
    */
-  Player(int x, int y, int health = 100, int speed = 1, int sightRx = 16, int sightRy = 10);
+  Player(int x, int y, int health = 100, int speed = 1, int sightRx = 16,
+         int sightRy = 10);
 
   /**
    * @brief Get the initial max health of player.

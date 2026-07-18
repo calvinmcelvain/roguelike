@@ -41,8 +41,7 @@ void Room::reveal(int x, int y) {
   if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return;
   visible[x][y] = true;
   // Only mark explored if the tile is not Void.
-  if (tiles[x][y].getType() != TileType::Void) 
-    explored[x][y] = true;
+  if (tiles[x][y].getType() != TileType::Void) explored[x][y] = true;
 }
 
 Room Room::generate(int roomID, RoomShape shape) {

@@ -5,7 +5,7 @@
 namespace {
 
 // Extended 16-colour palette index 8 is "bright black" — dark grey on
-// essentially every modern terminal. 
+// essentially every modern terminal.
 constexpr short kGreyDark = 8;
 
 // Small helper so pair registration reads naturally with the enum-class
@@ -28,7 +28,6 @@ void initColors() {
 
   // Explored-but-not-visible: same grey background as FogUnexplored so
   // the "shadow" of previously seen area stays visible after the FoV
-  // moves off it. 
+  // moves off it.
   registerPair(ColorPair::FogExplored, COLOR_WHITE, kGreyDark);
-
 }
