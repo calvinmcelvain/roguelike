@@ -39,7 +39,10 @@ void HUDLayer::doRender() {
   UI geom = computeUI(height, width);
   int bandRow = std::max(0, geom.originY - margin);
 
-  this->drawRoomID(bandRow, geom.originX);
-  this->drawPlayerHealthBar(bandRow + 1, geom.originX);
-  this->drawWeaponStats(bandRow + 2, geom.originX);
+  // room number, in middle (subtract 4 to center better -- 4 chars in 'Room').
+  this->drawRoomID(bandRow + 1, geom.originX + geom.winWidth / 2 - 4);
+
+  // health bar & weapon stats top left.
+  this->drawPlayerHealthBar(bandRow, geom.originX);
+  this->drawWeaponStats(bandRow + 1, geom.originX);
 };

@@ -32,7 +32,7 @@ Game::Game(int width, int height, int fps)
                            geom.winHeight, geom.winWidth, geom.originY,
                            geom.originX, level, player, enemies, projectiles));
 
-  const int hud_margin = 5;
+  const int hud_margin = 2;
   renderer.addLayer(3, std::make_unique<HUDLayer>(termHeight, termWidth,
                                                   hud_margin, player, level));
 
