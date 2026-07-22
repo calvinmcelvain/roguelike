@@ -22,6 +22,8 @@ set(SOURCES
     src/world/level.cpp
     src/world/tile.cpp
     src/world/room.cpp
+    src/world/weapon.cpp
+    src/world/projectile.cpp
     src/render/renderer.cpp
     src/render/render_stack.cpp
     src/render/layers/map_layer.cpp
